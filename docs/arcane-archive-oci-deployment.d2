@@ -1,0 +1,116 @@
+# Arcane Archive - OCI Deployment Architecture
+vars: {
+  d2-config: {
+    theme-id: 100
+    layout-engine: elk
+  }
+}
+
+direction: down
+
+mobile: Mobile Client
+igw: Internet Gateway
+
+oci: Oracle Cloud Infrastructure {
+  vcn: Virtual Cloud Network {
+
+    public: Public Ingress Subnet {
+      lb: OCI Public Load Balancer
+    }
+
+    private: Private Application and Data Subnet {
+      nginx: NGINX Reverse Proxy
+
+      stack: Docker Compose Deployment {
+        api: FastAPI App / Auth Module
+        pool: PgBouncer (if enabled)
+
+        pg: PostgreSQL {
+          shape: cylinder
+        }
+
+        redis: Redis {
+          shape: cylinder
+        }
+
+        job: Scheduled Ingestion Job
+        backup: pgBackRest
+      }
+    }
+
+    nat: NAT Gateway
+    sgw: Service Gateway
+  }
+
+  object_storage: OCI Object Storage {
+    shape: cylinder
+  }
+
+  observability: OCI Logging / Monitoring
+}
+
+external: Scryfall API / CDN and Firebase
+
+# Public Ingress
+
+mobile -> igw: HTTPS
+
+igw -> oci.vcn.public.lb
+
+oci.vcn.public.lb -> oci.vcn.private.nginx: Restricted backend access
+
+oci.vcn.private.nginx -> oci.vcn.private.stack.api
+
+# Database Connections
+
+oci.vcn.private.stack.api -> oci.vcn.private.stack.pool
+
+oci.vcn.private.stack.pool -> oci.vcn.private.stack.pg
+
+# Redis Caching
+
+oci.vcn.private.stack.api -> oci.vcn.private.stack.redis: {
+  style.stroke-dash: 4
+}
+
+# Scheduled Data Ingestion
+
+oci.vcn.private.stack.job -> oci.vcn.private.stack.pg
+
+oci.vcn.private.stack.job -> oci.vcn.private.stack.redis: {
+  style.stroke-dash: 4
+}
+
+# Database Backup
+
+oci.vcn.private.stack.backup -> oci.vcn.private.stack.pg
+
+# Outbound Internet Access
+
+oci.vcn.private.stack.api -> oci.vcn.nat
+
+oci.vcn.private.stack.job -> oci.vcn.nat
+
+oci.vcn.nat -> external
+
+# Private Access to OCI Object Storage
+
+oci.vcn.private.stack.api -> oci.vcn.sgw
+
+oci.vcn.private.stack.backup -> oci.vcn.sgw
+
+oci.vcn.sgw -> oci.object_storage
+
+# Logging and Monitoring
+
+oci.vcn.private.stack.api -> oci.observability: {
+  style.stroke-dash: 4
+}
+
+oci.vcn.private.stack.job -> oci.observability: {
+  style.stroke-dash: 4
+}
+
+oci.vcn.private.stack.backup -> oci.observability: {
+  style.stroke-dash: 4
+}

@@ -1,0 +1,115 @@
+# Arcane Archive — C4 Level 2: Container View
+vars: {
+  d2-config: {
+    theme-id: 201
+    layout-engine: elk
+  }
+}
+
+direction: down
+
+classes: {
+  person_node: {
+    shape: c4-person
+    style: {
+      fill: "#08427B"
+      stroke: "#052E56"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  container_node: {
+    shape: rectangle
+    style: {
+      fill: "#438DD5"
+      stroke: "#2766A4"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  database_node: {
+    shape: cylinder
+    style: {
+      fill: "#438DD5"
+      stroke: "#2766A4"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  external_node: {
+    shape: rectangle
+    style: {
+      fill: "#666666"
+      stroke: "#454545"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+}
+
+title: "C4 Level 2 — Containers | Arcane Archive" {
+  shape: text
+  near: top-center
+  style.font-size: 24
+  style.bold: true
+}
+
+guest: "Guest Player\n\nBrowses and searches cards." {
+  class: person_node
+}
+player: "Registered Player\n\nUses personalized MTG tools." {
+  class: person_node
+}
+
+archive: "Arcane Archive" {
+  style: {
+    fill: transparent
+    stroke: "#64748B"
+    stroke-dash: 4
+    stroke-width: 2
+    border-radius: 8
+  }
+  mobile: "Mobile Application\n[React Native, Expo, TypeScript]\n\nProvides card search, collection, deck,\nwishlist and game-tracking interfaces." {
+    class: container_node
+  }
+  api: "Backend API — FastAPI Modular Monolith\n[Python, FastAPI, Uvicorn]\n\nExposes REST endpoints; coordinates business\nlogic, authentication and data access." {
+    class: container_node
+  }
+  ingest: "Scheduled Bulk Import Job\n[Python]\n\nDownloads, validates and normalizes Scryfall\nbulk data; refreshes the local card catalog." {
+    class: container_node
+  }
+  pg: "Application Database\n[PostgreSQL]\n\nStores authoritative application records\nand the persistent local card catalog." {
+    class: database_node
+  }
+  redis: "Card Data Cache\n[Redis]\n\nCaches non-authoritative public card data\nand search results." {
+    class: database_node
+  }
+}
+
+scryfall: "Scryfall\n\nCard API, bulk exports and image CDN." {
+  class: external_node
+}
+firebase: "Firebase Authentication\n\nExternal identity and social sign-in." {
+  class: external_node
+}
+oci: "OCI Object Storage (optional)\n\nManaged storage for permitted image assets\nand database backups." {
+  class: external_node
+}
+
+# Static dependencies, not a runtime sequence.
+guest -> archive.mobile: "Browses and\n searches cards"
+player -> archive.mobile: "Uses\n personalized\n MTG tools"
+archive.mobile -> archive.api: "Calls REST endpoints"
+archive.mobile -> firebase: "Performs\nsocial sign-in"
+archive.api -> firebase: "Verifies\n external identity"
+archive.api -> archive.pg: "Queries catalog; reads and writes user data"
+archive.api -> archive.redis: "Reads and populates public-data cache"
+archive.api -> scryfall: "Performs permitted\n bounded lookups\n and retrieves images"
+archive.api -> oci: "Reads or caches\n permitted images"
+archive.ingest -> scryfall: "Downloads bulk datasets"
+archive.ingest -> archive.pg: "Validates and upserts catalog data"
+archive.ingest -> archive.redis: "Invalidates affected cache entries\nafter successful publication"

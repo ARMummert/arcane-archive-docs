@@ -1,0 +1,138 @@
+# Arcane Archive — C4 Level 4: Code View
+
+direction: down
+
+classes: {
+  code_class: {
+    shape: class
+    style: {
+      fill: "#85BBF0"
+      stroke: "#4B84BE"
+      font-color: "#102A43"
+      font-size: 14
+    }
+  }
+  supporting_class: {
+    shape: class
+    style: {
+      fill: "#E5E7EB"
+      stroke: "#64748B"
+      font-color: "#102A43"
+      font-size: 14
+    }
+  }
+  supporting_module: {
+    shape: rectangle
+    style: {
+      fill: "#E5E7EB"
+      stroke: "#64748B"
+      font-color: "#102A43"
+      font-size: 14
+    }
+  }
+}
+
+title: "C4 Level 4 — Authentication Code | Arcane Archive" {
+  shape: text
+  near: top-center
+  style.font-size: 24
+  style.bold: true
+}
+
+# The scoped component contains the authentication application services.
+auth: "Authentication and Account Services\n[Component Boundary · Target Design]" {
+  style: {
+    fill: transparent
+    stroke: "#64748B"
+    stroke-dash: 4
+    stroke-width: 2
+    border-radius: 8
+  }
+  local: AuthService {
+    shape: class
+    class: code_class
+    "-user_repo": UserRepository
+    "-user_auth_repo": UserAuthRepository
+    "-uow": UnitOfWork
+    "+register_local_user(data)": RegisterResponse
+    "+authenticate_local_user(credentials)": AuthResult
+  }
+  social: FirebaseAuthService {
+    shape: class
+    class: code_class
+    "-identity_provider": IdentityProviderAdapter
+    "-user_repo": UserRepository
+    "-uow": UnitOfWork
+    "+authenticate_social_user(id_token)": AuthResult
+  }
+}
+
+# Supporting elements are outside the scoped application component.
+router: "Authentication Routers\n[Python module · FastAPI]\n\nValidate requests and delegate use cases." {
+  class: supporting_module
+}
+di: "Dependency Composition\n[Python modules · FastAPI Depends]\n\nSupplies scoped services, repositories\nand a shared session." {
+  class: supporting_module
+}
+security: "security.py\n[Python module]\n\nPassword hashing and verification;\napplication JWT utilities." {
+  class: supporting_module
+}
+user_repo: UserRepository {
+  shape: class
+  class: supporting_class
+  "-session": AsyncSession
+  "+get_user_by_email(email)": "User | None"
+  "+create_user(data)": User
+  "+get_by_external_identity(provider, subject)": "User | None"
+}
+credential_repo: UserAuthRepository {
+  shape: class
+  class: supporting_class
+  "-session": AsyncSession
+  "+create_auth_record(user_id, password_hash)": LocalCredential
+  "+get_local_credential(user_id)": "LocalCredential | None"
+}
+uow: UnitOfWork {
+  shape: class
+  class: supporting_class
+  "-session": AsyncSession
+  "+begin()": None
+  "+commit()": None
+  "+rollback()": None
+}
+identity: IdentityProviderAdapter {
+  shape: class
+  class: supporting_class
+  "+verify_id_token(id_token)": VerifiedIdentity
+}
+session: AsyncSession {
+  shape: class
+  class: supporting_class
+  "+execute(statement)": Result
+  "+flush()": None
+  "+commit()": None
+  "+rollback()": None
+}
+
+router -> auth.local: "Delegates local registration and login"
+router -> auth.social: "Delegates social sign-in"
+di -> auth.local: "Constructs with dependencies"
+di -> auth.social: "Constructs with dependencies"
+di -> session: "Supplies one scoped session\nper request/transaction as appropriate"
+auth.local -> security: "Hashes and verifies passwords"
+auth.local -> user_repo: "Looks up and creates accounts"
+auth.local -> credential_repo: "Reads and writes local credentials"
+auth.local -> uow: "Controls atomic account writes"
+auth.social -> identity: "Verifies Firebase ID token"
+auth.social -> user_repo: "Resolves linked accounts"
+auth.social -> uow: "Controls account-linking writes"
+user_repo -> session: "Queries and flushes"
+credential_repo -> session: "Queries and flushes"
+uow -> session: "Begins, commits or rolls back"
+
+# AuthResult is conceptual: Firebase-to-application-token exchange is unresolved.
+# Session/token persistence and account-linking details require source verification.
+# UML + = public, - = private. Method signatures are proposed; async methods
+# should be awaited when appropriate. Repositories do not commit independently.
+# Key: light blue = scoped code; gray = supporting code outside the component;
+# arrows = usage dependencies (not inheritance or runtime call order).

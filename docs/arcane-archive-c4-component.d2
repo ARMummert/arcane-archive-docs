@@ -1,0 +1,169 @@
+# Arcane Archive — C4 Level 3: Backend Component View
+
+vars: {
+  d2-config: {
+    theme-id: 201
+    layout-engine: elk
+  }
+}
+
+direction: down
+
+classes: {
+  container_node: {
+    shape: rectangle
+    style: {
+      fill: "#438DD5"
+      stroke: "#2766A4"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  component_node: {
+    shape: rectangle
+    style: {
+      fill: "#85BBF0"
+      stroke: "#4B84BE"
+      font-color: "#102A43"
+      font-size: 14
+      bold: false
+    }
+  }
+  database_node: {
+    shape: cylinder
+    style: {
+      fill: "#438DD5"
+      stroke: "#2766A4"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  external_node: {
+    shape: rectangle
+    style: {
+      fill: "#666666"
+      stroke: "#454545"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+}
+
+title: "C4 Level 3 — Component View | Arcane Archive" {
+  shape: text
+  near: top-center
+  style.font-size: 24
+  style.bold: true
+}
+
+# Elements
+mobile: "Mobile Application\n[React Native, Expo, TypeScript]\n\nProvides card search, collection, deck,\nwishlist and game-tracking interfaces." {
+  class: container_node
+}
+
+pg: "Application Database\n[PostgreSQL]\n\n Persists user accounts, sessions, collections,\nwishlists, decks, profiles and game records." {
+  class: database_node
+}
+
+redis: "Card Data Cache\n[Redis]\n\nNon-authoritative public card data." {
+  class: database_node
+}
+
+scryfall: "Scryfall\n\nCard API, bulk exports and image CDN." {
+  class: external_node
+}
+
+firebase: "Firebase Authentication\n\nExternal identity provider." {
+  class: external_node
+}
+
+oci: "OCI Object Storage\n\nManaged object storage service." {
+  class: external_node
+}
+
+# Components of the API runtime; not independently deployed services.
+api: "Backend API — FastAPI Modular Monolith" {
+  style: {
+    fill: transparent
+    stroke: "#64748B"
+    stroke-dash: 4
+    stroke-width: 2
+    border-radius: 8
+  }
+
+  routes: "API Routers and Schemas\n[FastAPI, Pydantic]\n\nHTTP endpoints, validation,\nauthentication dependencies and\nresponses." {
+    class: component_node
+  }
+
+  auth: "Authentication and Account\nServices\n[Python, JWT]\n\nRegistration, local sign-in, social\nsign-in and session management." {
+    class: component_node
+  }
+
+  catalog: "Card Catalog Service\n[Python]\n\nCard and set search and printing\nlookup." {
+    class: component_node
+  }
+
+  features: "Player Application Services\n[Python]\n\nCollection, wishlist, deck, profile,\ngame and scanner resolution use\ncases." {
+    class: component_node
+  }
+
+  domain: "Domain Rules\n[Python]\n\nBusiness invariants, quantities and\ndeck rules." {
+    class: component_node
+  }
+
+  read: "Card Data Retrieval Adapter\n[Python]\n\nCoordinates cache-aside reads and\nbounded external fallback." {
+    class: component_node
+  }
+
+  repo: "Repository Implementations\n[SQLAlchemy 2.0]\n\nExecutes queries and persistence\nthrough repository contracts." {
+    class: component_node
+  }
+
+  uow: "Session and Transaction Management\n[SQLAlchemy AsyncSession]\n\nSupplies scoped sessions and\ncoordinates commit or rollback." {
+    class: component_node
+  }
+
+  cache: "Cache Adapter\n[Redis client]\n\nReads, populates and invalidates\npublic card-data cache entries." {
+    class: component_node
+  }
+
+  gateway: "Scryfall API Gateway\n\nPerforms rate-limited external card\nlookups." {
+    class: component_node
+  }
+
+  identity: "Identity Provider Adapter\n[Firebase Admin SDK]\n\nVerifies Firebase ID tokens." {
+    class: component_node
+  }
+
+  images: "Image Retrieval Adapter\n\nRetrieves permitted card imagery from\nCDN or object cache." {
+    class: component_node
+  }
+
+}
+
+mobile -> api.routes: "Calls REST endpoints"
+api.routes -> api.auth: "Authenticates requests and delegates use cases"
+api.routes -> api.catalog: "Delegates card queries"
+api.routes -> api.features: "Delegates player use cases"
+api.auth -> api.identity: "Verifies external identity"
+api.auth -> api.repo: "Reads and writes accounts and\nsessions"
+api.auth -> api.uow: "Coordinates account transactions"
+api.catalog -> api.read: "Retrieves card reference data"
+api.catalog -> api.images: "Resolves images when configured"
+api.features -> api.domain: "Applies business rules"
+api.features -> api.catalog: "Resolves card references"
+api.features -> api.repo: "Reads and persists player data"
+api.features -> api.uow: "Coordinates write transactions"
+api.read -> api.cache: "Reads and populates cache"
+api.read -> api.repo: "Reads local catalog"
+api.read -> api.gateway: "Performs permitted fallback\nlookups"
+api.repo -> api.uow: "Uses transaction-scoped session"
+api.uow -> pg: "Executes database operations"
+api.cache -> redis: "Reads and writes cache entries"
+api.gateway -> scryfall: "Requests card data"
+api.identity -> firebase: "Verifies identity using provider\nfacilities\n[Firebase SDK]"
+api.images -> scryfall: "Retrieves approved image assets"
+api.images -> oci: "Reads or caches permitted image\nassets"

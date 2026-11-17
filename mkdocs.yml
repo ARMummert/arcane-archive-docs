@@ -1,0 +1,42 @@
+site_name: Arcane Archive Docs
+site_description: Technical Documentation for the Arcane Archive Companion Application
+site_author: Amy Mummert
+repo_url: https://armummert.github.io/arcane-archive-docs/
+
+theme:
+  name: material
+  language: en
+  palette:
+    primary: green
+    accent: light green
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - Documentation Suite:
+      - Overview and Installation: overview-and-installation.md
+      - System Architecture: system-architecture-and-design.md
+      - Scryfall Integration: scryfall_api_docs.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_css:
+  - style.css

@@ -1,0 +1,80 @@
+# Arcane Archive — C4 Level 1: System Context
+vars: {
+  d2-config: {
+    theme-id: 201
+    layout-engine: elk
+  }
+}
+
+direction: down
+
+classes: {
+  person_node: {
+    shape: c4-person
+    style: {
+      fill: "#08427B"
+      stroke: "#052E56"
+      font-color: "#ffffff"
+      font-size: 16
+      bold: false
+    }
+  }
+  system_node: {
+    shape: rectangle
+    style: {
+      fill: "#1168BD"
+      stroke: "#0B4F90"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  external_node: {
+    shape: rectangle
+    style: {
+      fill: "#666666"
+      stroke: "#454545"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+}
+
+title: "C4 Level 1 — System Context | Arcane Archive" {
+  shape: text
+  near: top-center
+  style.font-size: 24
+  style.bold: true
+}
+
+# Elements
+guest: "Guest Player\n\nBrowses and searches the MTG card\ncatalog without an account." {
+  class: person_node
+}
+
+player: "Registered Player\n\nManages collections, wishlists,\ndecks, profiles and game records." {
+  class: person_node
+}
+
+archive: "Arcane Archive\n\nMagic: The Gathering companion\napplication for card search,\ncollection management, deck building\nand game tracking." {
+  class: system_node
+}
+
+scryfall: "Scryfall\n\nMTG card and set reference data, bulk\nexports and card images." {
+  class: external_node
+}
+
+firebase: "Firebase Authentication\n\nExternal identity and social sign-in." {
+  class: external_node
+}
+
+oci: "OCI Object Storage (optional)\n\nManaged object storage for cached\nimages and database backups." {
+  class: external_node
+}
+
+guest -> archive: "Browses and\n searches\n cards"
+player -> archive: "Uses\n personalized\n MTG tools"
+archive -> scryfall: "Retrieves card data, bulk\ndatasets and images"
+archive -> firebase: "Supports social sign-in and\nverifies identity"
+archive -> oci: "Stores and retrieves images and\nbackups when configured"
