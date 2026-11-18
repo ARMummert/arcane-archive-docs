@@ -1,0 +1,86 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+    layout-engine: elk
+  }
+}
+classes: {
+  container_node: {
+    shape: rectangle
+    style: {
+      fill: "#438DD5"
+      stroke: "#2766A4"
+      font-color: "#FFFFFF"
+      font-size: 14
+      bold: false
+    }
+  }
+  component_node: {
+    shape: rectangle
+    style: {
+      fill: "#85BBF0"
+      stroke: "#4B84BE"
+      font-color: "#102A43"
+      font-size: 14
+      bold: false
+    }
+  }
+}
+
+direction: down
+
+di: Dependency Injection\nFastAPI Depends / DI Container {
+   class: container_node
+}
+
+router: Route Handler {
+  class: component_node
+}
+
+service: Application Service {
+  class: component_node
+}
+
+repository: Repository {
+  class: component_node
+}
+
+session: AsyncSession {
+  class: component_node
+}
+
+di -> router: Injects service {
+  style.stroke-dash: 4
+  style.fill: "#E5E7EB"
+  style.stroke: "#64748B"
+  style.font-color: "#102A43"
+  style.font-size: 14
+}
+
+di -> service: Injects repository {
+  style.stroke-dash: 4
+  style.fill: "#E5E7EB"
+  style.stroke: "#64748B"
+  style.font-color: "#102A43"
+  style.font-size: 14
+}
+
+di -> repository: Injects session {
+  style.stroke-dash: 4
+  style.fill: "#E5E7EB"
+  style.stroke: "#64748B"
+  style.font-color: "#102A43"
+  style.font-size: 14
+}
+
+di -> session: Manages lifecycle {
+  style.stroke-dash: 4
+  style.fill: "#E5E7EB"
+  style.stroke: "#64748B"
+  style.font-color: "#102A43"
+  style.font-size: 14
+}
+
+router -> service: Executes use case
+service -> repository: Performs data operations
+repository -> session: Executes database queries

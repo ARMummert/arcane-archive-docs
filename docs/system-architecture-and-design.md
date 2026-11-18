@@ -1,44 +1,31 @@
 # System Architecture and Design
 
-## Arcane Archive Backend
+### Arcane Archive – Backend Architecture
+
+**Document Status: Draft**
+
+**Revision: 2026-11-18**
 
 ## Purpose & Scope
-This document describes the system architecture and design of the Arcane Archive backend, a FastAPI REST API for 
-the Arcane Archive MTG companion application.
+This document describes the system architecture, design, decisions, components, data model, security requirements, 
+deployment topology, operation requirements, and integration of the Arcane Archive backend. Arcane Archive is a 
+Magic: The Gathering companion application with a React Native, Expo, TypeScript, with a FastAPI REST API. 
+
+The backend supports the following features:
+
+1. Public card and set data retrieval.
+2. User authentication and authorization.
+3. User profile management.
+4. Card library management.
+5. Wishlist management.
+6. Deck building and management.
+7. Game tracking.
+8. Integration with Scryfall API for card data and images.
+9. Mobile-friendly design.
+10. AI-assisted deck building (planned for future implementation).
 
 See [Overview & Installation](/docs/overview-and-installation.md) for more information on how to install and run the 
 backend.
-
-## Summary
-Arcane Archive is a Magic: The Gathering(MTG) companion app. It is a user-friendly mobile application that is designed 
-to enhance an MTG player's experience that helps users manage their card collections, create wishlists, build decks, and 
-track their games.  In addition to these features, an AI Deck Builder is planned for future implementation.
-
-The backend uses PostgreSQL to persist card data and user information. Scryfall API is integrated to provide card 
-information and images by using the bulk data download feature. An AI-assisted deck builder is planned for future
-implementation.
-
-## Objectives
-
-- Library Management: Provide a card library so users can manage card collections, including library 
-  organization, wish lists, card collections, and set management.
-- Card Search: Offer both an advanced and simple user-friendly search feature that allows users to easily find specific 
-  cards or sets. 
-- Game Tracker: Include essential game tools such as a multi-player game tracker that tracks a player’s name, damage, tax,
-  mana count, counters, life counter, and other game stats.
-- Deck Builder: Provide a comprehensive deck building feature with the ability to save the deck to a user’s library.
-- User Accounts: Support private user accounts, profiles, collections, wishlists, and saved decks.
-- Card Scanner: Provide a card scanner to easily add cards to a user’s library.
-- Mobile Support: Support mobile devices and platforms with user-friendly design.
-- Reliable Card Data: Integrate Scryfall API reference data through controlled API access and bulk data ingestion.
-
-## Overview
-Arcane Archive is a mobile application for Magic: The Gathering players, built with React Native, TypeScript, Expo, and 
-FastAPI. Players can create a profile where their game stats, card library, wish lists, and other preferences are stored. 
-Arcane Archive offers an advanced and simple search feature, a deck builder, user profile, card library, card scanner, 
-and the ability to create wishlists. The app also includes a multi-player game tracker that tracks a player’s name, 
-damage, tax, mana count, counters, a life counter, and other stats. Integrated with Scryfall API, Arcane Archive 
-provides daily updates to the most current card data.
 
 ## Features 
 
@@ -61,19 +48,28 @@ provides daily updates to the most current card data.
 ## System Architecture
 
 Arcane Archive is designed to be maintainable, scalable, testable, and reliable. Its backend architecture combines 
-SOLID principles, a layered architecture, the repository pattern, and dependency injection within a modular monolith. 
+SOLID principles, a layered architecture, the repository pattern, transaction management, the adaptor pattern, and 
+dependency injection within a modular monolith. 
 
 ### C4 Level 1 Context View
 
-![C4 Context Diagram](arcane-archive-c4-context.svg)
+![C4 Context Diagram](assests/arcane-archive-c4-context.svg)
 
 ### C4 Level 2 Container View
 
-![C4 Container Diagram](arcane-archive-c4-container.svg)
+![C4 Container Diagram](assests/arcane-archive-c4-container.svg)
 
 ### C4 Level 3 Component View
 
-![C4 Component Diagram](arcane-archive-c4-component.svg)
+![C4 Component Diagram](assests/arcane-archive-c4-component.svg)
+
+### Architectural Layers
+
+1. **Presentation Layer**: FastAPI routers, Pydantic, Request/Response schemas
+2. **Application Layer**: Register user, save deck, search cards
+3. **Domain Layer**: Card quantity, deck format, ownership rules
+4. **Data Access Layer**: User, credentials, card, and deck repositories
+5. **Infrastructure Layer**: SQLAlchemy, Redis, Firebase Admin SDK, Scryfall API, pgBouncer, pgBackRest
 
 ### SOLID Principles
 
@@ -85,22 +81,21 @@ SOLID principles, a layered architecture, the repository pattern, and dependency
 - **Interface Segregation Principle** – Instead of one giant repository, I have separated the repositories into smaller, 
   more focused components to only pull in the data they need.
 - **Dependency Inversion Principle** – Services don't create their own database connections but instead ask for them 
-  through the dependencies they need.  
+  through the dependencies they need.
 
-### Architectural Design Patterns
+### Architectural Styles & Design Patterns
 
-- **Modular Monolith** - Arcane Archive is designed as a modular monolith, which allows for a single deployment
-  while maintaining a modular structure. This allows for easier maintenance, testing, and deployment while still 
-  allowing for future scalability and flexibility.  
-- **Separation of Concerns & Layered Architecture** – Responsibilities are separated across different layers where each 
-  layer handles a specific aspect of the application (e.g., service layer, repository layer, and API layer).
-- **Repository Pattern** – Arcane Archive uses a repository pattern to abstract the data access layer from the 
-  business logic layer. This provides abstraction and decoupling between application services and database queries.
-- **Transaction Management**: Arcane Archive uses SQLAlchemy's AsyncSession to manage database transactions. 
-  SQLAlchemy's Unit of Work pattern is used so that repositories never commit transactions directly.
-- **Dependency Injection** – Arcane Archive uses FastAPI's built-in dependency injection to manage dependencies 
-  and promote loose coupling between components. 
-- **Cache-Aside**: Read from the cache when available, on a miss, read the database, and update the cache.
+| Category                | Selected Pattern                                | 
+|-------------------------|-------------------------------------------------|
+| Architectural Style     | **Modular Monolith**                            |
+| Architectural Pattern   | **Layered Architecture**                        |
+| Design Principle        | **Separation of Concerns**                      |
+| Persistence Pattern     | **Repository Pattern & Transaction Management** |
+| Composition Pattern     | **Dependency Injection**                        |
+| Integration Pattern     | **Adapter Pattern**                             |
+| Caching Pattern         | **Cache-Aside**                                 |
+| Data Processing Pattern | **ETL Pipeline (Extract, Transform, Load)**     | 
+| Resilience Approach     | **Graceful Degradation**                        |
 
 See [References](#references) for more information on the design patterns I used in this project.
 
@@ -154,123 +149,19 @@ improving maintainability.
 
 ### Ownership & Responsibility
 
-1. Scryfall owns the card data and images. Arcane Archive stores the data in a PostgreSQL database.
+1. Scryfall & Wizards of the Coast own the card data and images. Arcane Archive stores the data in a PostgreSQL database.
 2. Arcane Archive owns the user data and authentication as well as accounts, collections, wishlists, saved decks, 
    and game stats.
-3. Users own their personal data and are responsible for managing their account information and privacy settings.
-4. Redis is a non-authoritative cache and entries may expire.
+3. PostgreSQL is the normal local read source.
+4. Wizards of the Coast own the artwork and MTG intellectual property.
+5. Users own their personal data and are responsible for managing their account information and privacy settings.
+6. Redis is a non-authoritative cache and entries may expire.
 
 ## Domain Model & Database Design
 
 The following ERD shows the database design for the Arcane Archive backend. 
 
-```mermaid
----
-config:
-    theme: neo-dark
-    flowchart:
-        useMaxWidth: true
-        
----
-erDiagram
-    USER ||--o| LOCAL_CREDENTIAL : authenticates_with
-    USER ||--o{ SOCIAL_IDENTITY : links
-    USER ||--o{ AUTH_SESSION : has
-    USER ||--o{ COLLECTION_ITEM : owns
-    USER ||--o{ WISHLIST : owns
-    WISHLIST ||--o{ WISHLIST_ITEM : contains
-    USER ||--o{ DECK : creates
-    USER ||--o{ GAME_SESSION : owns
-    GAME_SESSION ||--o{ GAME_PLAYER : includes
-    USER o|--o{ GAME_PLAYER : optionally_identifies
-    CARD_SET ||--o{ CARD_PRINT : contains
-    CARD_ORACLE o|--o{ CARD_PRINT : groups
-    CARD_PRINT ||--o{ COLLECTION_ITEM : referenced_by
-    CARD_PRINT ||--o{ WISHLIST_ITEM : referenced_by
-    DECK ||--o{ DECK_ENTRY : contains
-    CARD_PRINT ||--o{ DECK_ENTRY : uses
-    USER {
-        int id PK
-        string username UK
-        string email UK
-        boolean is_active
-    }
-    LOCAL_CREDENTIAL {
-        int user_id PK, FK
-        string password_hash
-        boolean is_verified
-    }
-    SOCIAL_IDENTITY {
-        int id PK
-        int user_id FK
-        string provider
-        string provider_subject
-    }
-    AUTH_SESSION {
-        uuid id PK
-        int user_id FK
-        string refresh_token_hash
-        datetime expires_at
-        datetime revoked_at
-    }
-    CARD_ORACLE {
-        uuid oracle_id PK
-        string name
-    }
-    CARD_SET {
-        uuid scryfall_set_id PK
-        string set_code UK
-        string set_name
-    }
-    CARD_PRINT {
-        uuid scryfall_id PK
-        uuid oracle_id FK
-        uuid set_id FK
-        string collector_number
-        string lang
-    }
-    COLLECTION_ITEM {
-        int id PK
-        int user_id FK
-        uuid scryfall_id FK
-        int quantity
-    }
-    WISHLIST {
-        int id PK
-        int user_id FK
-        string title
-    }
-    WISHLIST_ITEM {
-        int id PK
-        int wishlist_id FK
-        uuid scryfall_id FK
-    }
-    DECK {
-        int id PK
-        int user_id FK
-        string title
-        string format
-    }
-    DECK_ENTRY {
-        int id PK
-        int deck_id FK
-        uuid scryfall_id FK
-        int quantity
-        string zone
-    }
-    GAME_SESSION {
-        int id PK
-        int user_id FK
-        datetime started_at
-    }
-    GAME_PLAYER {
-        int id PK
-        int game_session_id FK
-        int user_id FK
-        string display_name
-        int life_total
-    }
-```
+![ERD](assests/arcane-archive-erd.svg)
 
 ### Card Data Ingestion
 
@@ -498,7 +389,7 @@ I designed Arcane Archive to be flexible and modular by using dependency injecti
 dependencies with mocks during testing and makes the code more testable, maintainable, and scalable. The following 
 diagram illustrates the dependency injection flow for a request:
 
-![Dependency Injection Flow](di-structural-diagram.svg)
+![Dependency Injection Flow](assests/di-structural-diagram.svg)
 
 Arcane Archive uses the dependency injection framework [dependency-injector](https://python-dependency-injector.ets-labs.org/index.html) 
 to manage the dependencies of the application.

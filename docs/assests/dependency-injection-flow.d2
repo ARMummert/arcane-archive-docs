@@ -1,0 +1,39 @@
+shape: sequence_diagram
+
+client: AA Mobile Client
+fastapi: FastAPI
+di: Dependency Injection
+factory: AsyncSession Factory
+session: AsyncSession
+repo: Repository
+service: Application Service
+router: Route Handler
+
+client -> fastapi: HTTP request
+
+fastapi -> di: Resolve declared dependencies
+
+di -> factory: Create request-scoped session
+factory -> di: AsyncSession instance
+
+di -> repo: Construct repository with session
+di -> service: Construct service with repository
+
+di -> fastapi: Supply resolved dependencies
+
+fastapi -> router: Invoke route handler with service
+
+router -> service: Execute use case
+
+service -> repo: Execute persistence operation
+repo -> session: Execute database operation
+session -> repo: Database result
+repo -> service: Domain or persistence result
+
+service -> router: Return use-case result
+router -> fastapi: Return response model
+
+fastapi -> client: HTTP response
+
+fastapi -> di: Finalize request dependencies
+di -> session: Close session and release resources
