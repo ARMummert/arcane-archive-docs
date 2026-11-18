@@ -1,0 +1,2164 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical Documentation for the Arcane Archive Companion Application">
+      
+      
+        <meta name="author" content="Amy Mummert">
+      
+      
+      
+        <link rel="prev" href="../overview-and-installation/">
+      
+      
+        <link rel="next" href="../scryfall_api_docs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>System Architecture - Arcane Archive Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="light-green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-architecture-and-design" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Arcane Archive Docs" class="md-header__button md-logo" aria-label="Arcane Archive Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arcane Archive Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://armummert.github.io/arcane-archive-docs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Armummert
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Arcane Archive Docs" class="md-nav__button md-logo" aria-label="Arcane Archive Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Arcane Archive Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://armummert.github.io/arcane-archive-docs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Armummert
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Suite
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Documentation Suite
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview-and-installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview and Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arcane-archive-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arcane Archive Backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose &amp; Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c4-level-1-context-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4 Level 1 Context View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c4-level-2-container-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4 Level 2 Container View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c4-level-3-component-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4 Level 3 Component View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solid-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SOLID Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architectural-design-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Design Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives Considered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ownership-responsibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ownership &amp; Responsibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-model-database-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Model &amp; Database Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain Model &amp; Database Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#card-data-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Card Data Ingestion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-first-card-retrieval-failure-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local-First Card Retrieval &amp; Failure Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-registration-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Registration Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-infrastructure-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloud Infrastructure Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dmz-network-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DMZ &amp; Network Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-storage-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Storage &amp; Retrieval
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Storage &amp; Retrieval">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql-vs-nosql-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Vs. NoSQL Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgresql-with-pgvector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL with pgVector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-path-data-ingestion-with-scryfall-api-bulk-data-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual-Path Data Ingestion with Scryfall API &amp; Bulk Data File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scryfall-data-usage-and-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scryfall Data Usage and Rate Limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hotlinking-vs-object-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hotlinking Vs. Object Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asyncsession-for-database-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsyncSession for Database Transactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-injection-for-testability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Injection for Testability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-resource-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance &amp; Resource Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance &amp; Resource Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-pooling-with-pgbouncer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Pooling with pgBouncer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-memory-caching-with-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-memory Caching with Redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-reliability-disaster-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Reliability &amp; Disaster Recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Reliability &amp; Disaster Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-backup-and-recovery-with-pgbackrest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Backup and Recovery with pgBackRest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cap-consistency-partition-tolerance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAP: Consistency &amp; Partition Tolerance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity-via-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Integrity via Schemas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management-and-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Management and Virtual Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scalability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependency-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license-and-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License and Attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scryfall_api_docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scryfall Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arcane-archive-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arcane Archive Backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose &amp; Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c4-level-1-context-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4 Level 1 Context View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c4-level-2-container-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4 Level 2 Container View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c4-level-3-component-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C4 Level 3 Component View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solid-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SOLID Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architectural-design-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Design Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives-considered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives Considered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ownership-responsibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ownership &amp; Responsibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-model-database-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Model &amp; Database Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain Model &amp; Database Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#card-data-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Card Data Ingestion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-first-card-retrieval-failure-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local-First Card Retrieval &amp; Failure Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-registration-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Registration Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-infrastructure-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloud Infrastructure Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dmz-network-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DMZ &amp; Network Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-storage-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Storage &amp; Retrieval
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Storage &amp; Retrieval">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql-vs-nosql-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Vs. NoSQL Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgresql-with-pgvector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL with pgVector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-path-data-ingestion-with-scryfall-api-bulk-data-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual-Path Data Ingestion with Scryfall API &amp; Bulk Data File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scryfall-data-usage-and-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scryfall Data Usage and Rate Limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hotlinking-vs-object-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hotlinking Vs. Object Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asyncsession-for-database-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsyncSession for Database Transactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-injection-for-testability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Injection for Testability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-resource-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance &amp; Resource Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance &amp; Resource Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-pooling-with-pgbouncer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Pooling with pgBouncer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-memory-caching-with-redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-memory Caching with Redis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-reliability-disaster-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Reliability &amp; Disaster Recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Reliability &amp; Disaster Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-backup-and-recovery-with-pgbackrest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Backup and Recovery with pgBackRest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cap-consistency-partition-tolerance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAP: Consistency &amp; Partition Tolerance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity-via-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Integrity via Schemas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management-and-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Management and Virtual Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scalability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependency-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license-and-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License and Attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="system-architecture-and-design">System Architecture and Design<a class="headerlink" href="#system-architecture-and-design" title="Permanent link">&para;</a></h1>
+<h2 id="arcane-archive-backend">Arcane Archive Backend<a class="headerlink" href="#arcane-archive-backend" title="Permanent link">&para;</a></h2>
+<h2 id="purpose-scope">Purpose &amp; Scope<a class="headerlink" href="#purpose-scope" title="Permanent link">&para;</a></h2>
+<p>This document describes the system architecture and design of the Arcane Archive backend, a FastAPI REST API for 
+the Arcane Archive MTG companion application.</p>
+<p>See <a href="/docs/overview-and-installation.md">Overview &amp; Installation</a> for more information on how to install and run the 
+backend.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is a Magic: The Gathering(MTG) companion app. It is a user-friendly mobile application that is designed 
+to enhance an MTG player's experience that helps users manage their card collections, create wishlists, build decks, and 
+track their games.  In addition to these features, an AI Deck Builder is planned for future implementation.</p>
+<p>The backend uses PostgreSQL to persist card data and user information. Scryfall API is integrated to provide card 
+information and images by using the bulk data download feature. An AI-assisted deck builder is planned for future
+implementation.</p>
+<h2 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Library Management: Provide a card library so users can manage card collections, including library 
+  organization, wish lists, card collections, and set management.</li>
+<li>Card Search: Offer both an advanced and simple user-friendly search feature that allows users to easily find specific 
+  cards or sets. </li>
+<li>Game Tracker: Include essential game tools such as a multi-player game tracker that tracks a player’s name, damage, tax,
+  mana count, counters, life counter, and other game stats.</li>
+<li>Deck Builder: Provide a comprehensive deck building feature with the ability to save the deck to a user’s library.</li>
+<li>User Accounts: Support private user accounts, profiles, collections, wishlists, and saved decks.</li>
+<li>Card Scanner: Provide a card scanner to easily add cards to a user’s library.</li>
+<li>Mobile Support: Support mobile devices and platforms with user-friendly design.</li>
+<li>Reliable Card Data: Integrate Scryfall API reference data through controlled API access and bulk data ingestion.</li>
+</ul>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is a mobile application for Magic: The Gathering players, built with React Native, TypeScript, Expo, and 
+FastAPI. Players can create a profile where their game stats, card library, wish lists, and other preferences are stored. 
+Arcane Archive offers an advanced and simple search feature, a deck builder, user profile, card library, card scanner, 
+and the ability to create wishlists. The app also includes a multi-player game tracker that tracks a player’s name, 
+damage, tax, mana count, counters, a life counter, and other stats. Integrated with Scryfall API, Arcane Archive 
+provides daily updates to the most current card data.</p>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FastAPI Backend</td>
+<td>HTTP routers, pydantic schemas, database models</td>
+</tr>
+<tr>
+<td>Local user authentication</td>
+<td>JWT-based authentication with password hashing and salting</td>
+</tr>
+<tr>
+<td>Firebase social authentication</td>
+<td>OAuth2-based authentication with Google, Facebook, and Apple</td>
+</tr>
+<tr>
+<td>Simple &amp; Advanced Search</td>
+<td>Search for cards by name, set, or other criteria</td>
+</tr>
+<tr>
+<td>Scryfall API Integration</td>
+<td>Bulk downloads, normalization, and database upserts</td>
+</tr>
+<tr>
+<td>Player Profile Management</td>
+<td>User profile management, preferences, and game stats</td>
+</tr>
+<tr>
+<td>Card Library Management</td>
+<td>Manage card collections, wishlists, and sets</td>
+</tr>
+<tr>
+<td>Wishlist Management</td>
+<td>Create, edit, and delete wishlists</td>
+</tr>
+<tr>
+<td>Deck Builder</td>
+<td>Create, edit, and manage decks</td>
+</tr>
+<tr>
+<td>Card Scanner</td>
+<td>Scan cards to add to the user's library</td>
+</tr>
+<tr>
+<td>Redis Caching</td>
+<td>Cache-aside for public card data</td>
+</tr>
+<tr>
+<td>pgVector &amp; AI Deck Builder (Future)</td>
+<td>Store AI-generated card embeddings for semantic search</td>
+</tr>
+<tr>
+<td>pgBouncer &amp; pgBackRest</td>
+<td>Connection pooling and backup/recovery for PostgreSQL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is designed to be maintainable, scalable, testable, and reliable. Its backend architecture combines 
+SOLID principles, a layered architecture, the repository pattern, and dependency injection within a modular monolith. </p>
+<h3 id="c4-level-1-context-view">C4 Level 1 Context View<a class="headerlink" href="#c4-level-1-context-view" title="Permanent link">&para;</a></h3>
+<p><img alt="C4 Context Diagram" src="../arcane-archive-c4-context.svg" /></p>
+<h3 id="c4-level-2-container-view">C4 Level 2 Container View<a class="headerlink" href="#c4-level-2-container-view" title="Permanent link">&para;</a></h3>
+<p><img alt="C4 Container Diagram" src="../arcane-archive-c4-container.svg" /></p>
+<h3 id="c4-level-3-component-view">C4 Level 3 Component View<a class="headerlink" href="#c4-level-3-component-view" title="Permanent link">&para;</a></h3>
+<p><img alt="C4 Component Diagram" src="../arcane-archive-c4-component.svg" /></p>
+<h3 id="solid-principles">SOLID Principles<a class="headerlink" href="#solid-principles" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Single Responsibility Principle</strong> – Each file has one job (e.g., user_repository only talks to the database).</li>
+<li><strong>Open/Closed Principle</strong> – The application is open for extension but closed for modification allowing for future 
+  enhancements like adding an AI Deck Service.  </li>
+<li><strong>Liskov Substitution Principle</strong> – Example: Different auth methods (local and Firebase social auth) can both be used 
+  interchangeably with the token schema without affecting the application's behavior.</li>
+<li><strong>Interface Segregation Principle</strong> – Instead of one giant repository, I have separated the repositories into smaller, 
+  more focused components to only pull in the data they need.</li>
+<li><strong>Dependency Inversion Principle</strong> – Services don't create their own database connections but instead ask for them 
+  through the dependencies they need.  </li>
+</ul>
+<h3 id="architectural-design-patterns">Architectural Design Patterns<a class="headerlink" href="#architectural-design-patterns" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Modular Monolith</strong> - Arcane Archive is designed as a modular monolith, which allows for a single deployment
+  while maintaining a modular structure. This allows for easier maintenance, testing, and deployment while still 
+  allowing for future scalability and flexibility.  </li>
+<li><strong>Separation of Concerns &amp; Layered Architecture</strong> – Responsibilities are separated across different layers where each 
+  layer handles a specific aspect of the application (e.g., service layer, repository layer, and API layer).</li>
+<li><strong>Repository Pattern</strong> – Arcane Archive uses a repository pattern to abstract the data access layer from the 
+  business logic layer. This provides abstraction and decoupling between application services and database queries.</li>
+<li><strong>Transaction Management</strong>: Arcane Archive uses SQLAlchemy's AsyncSession to manage database transactions. 
+  SQLAlchemy's Unit of Work pattern is used so that repositories never commit transactions directly.</li>
+<li><strong>Dependency Injection</strong> – Arcane Archive uses FastAPI's built-in dependency injection to manage dependencies 
+  and promote loose coupling between components. </li>
+<li><strong>Cache-Aside</strong>: Read from the cache when available, on a miss, read the database, and update the cache.</li>
+</ul>
+<p>See <a href="#references">References</a> for more information on the design patterns I used in this project.</p>
+<h3 id="alternatives-considered">Alternatives Considered<a class="headerlink" href="#alternatives-considered" title="Permanent link">&para;</a></h3>
+<p><strong>Microservices Architecture</strong></p>
+<p>I considered using a microservices architecture for this project, but I decided against it for several reasons:</p>
+<ul>
+<li><strong>Complexity</strong>: A microservices architecture would add complexity to the application. I found that a modular monolith 
+  is simpler to develop, test, and deploy, debug, and maintain. It also allows me to focus on the core functionality of 
+  the application while maintaining separation of concerns.</li>
+<li><strong>Performance</strong>: With microservices latency and network communication could potentially introduce performance 
+  issues. A modular monolith fits better for Arcane Archive's current requirements, as it eliminates network
+  overhead and allows for faster communication between components.</li>
+<li><strong>Deployment</strong>: Using a modular monolith allows me to deploy the application as a single unit, which is simpler 
+  and easier to manage.</li>
+<li><strong>Scalability</strong>: Microservices can provide better scalability, but I found that a modular monolith can still be 
+  scaled horizontally by adding more instances of the application. This is enough to satisfy the current requirements 
+  of Arcane Archive.  If the application grows in complexity and requires more scalability, I can refactor the 
+  application into a microservices architecture in the future.</li>
+</ul>
+<p><strong>Decision</strong>: I selected a modular monolith because it fits best with the current project requirements, while still 
+allowing me to scale the application in the future if needed. It also provides a balanced approach for maintainability, 
+testability, and performance.</p>
+<p><strong>Routes accessing the database directly</strong></p>
+<p>I considered having the API routes access the database directly, but I decided against it for several reasons:</p>
+<ul>
+<li><strong>Separation of Concerns</strong>: By having the API routes access the database directly, I would be mixing concerns 
+  between the API layer and the data access layer. This would make the code harder to maintain and test.</li>
+<li><strong>Testability</strong>: By having the API routes access the database directly, it would be harder to test the application. 
+  By using a service layer, I can easily mock the service layer for testing without needing to access the database.</li>
+<li><strong>Flexibility</strong>: By having the API routes access the database directly, I would be tightly coupling the API layer 
+  to the data access layer. This would make it harder to change the data access layer in the future without affecting 
+  the API layer. By using a service layer, I can easily change the data access layer without affecting the API layer.</li>
+<li><strong>Reusability</strong>: By having the API routes access the database directly, I would be duplicating code across multiple 
+  routes. By using a service layer, I can reuse the same service methods across multiple routes, reducing code duplication 
+  and improving maintainability.</li>
+<li><strong>Security</strong>: By having the API routes access the database directly, I would be exposing the database to potential 
+  security vulnerabilities. By using a service layer, I can implement security measures such as input validation and 
+  authentication in a centralized location, reducing the risk of security vulnerabilities.</li>
+<li><strong>Maintainability</strong>: By having the API routes access the database directly, I would be making the code harder to 
+  maintain. </li>
+</ul>
+<p><strong>Decision</strong>: I selected a layered architecture with application services because it provides a clean separation of 
+concerns between the API layer and the data access layer, while still allowing me to easily test, maintain, scale, 
+and secure the application. It also allows me to reuse code across multiple routes, reducing code duplication and 
+improving maintainability.</p>
+<h3 id="ownership-responsibility">Ownership &amp; Responsibility<a class="headerlink" href="#ownership-responsibility" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Scryfall owns the card data and images. Arcane Archive stores the data in a PostgreSQL database.</li>
+<li>Arcane Archive owns the user data and authentication as well as accounts, collections, wishlists, saved decks, 
+   and game stats.</li>
+<li>Users own their personal data and are responsible for managing their account information and privacy settings.</li>
+<li>Redis is a non-authoritative cache and entries may expire.</li>
+</ol>
+<h2 id="domain-model-database-design">Domain Model &amp; Database Design<a class="headerlink" href="#domain-model-database-design" title="Permanent link">&para;</a></h2>
+<p>The following ERD shows the database design for the Arcane Archive backend. </p>
+<pre class="mermaid"><code>---
+config:
+    theme: neo-dark
+    flowchart:
+        useMaxWidth: true
+
+---
+erDiagram
+    USER ||--o| LOCAL_CREDENTIAL : authenticates_with
+    USER ||--o{ SOCIAL_IDENTITY : links
+    USER ||--o{ AUTH_SESSION : has
+    USER ||--o{ COLLECTION_ITEM : owns
+    USER ||--o{ WISHLIST : owns
+    WISHLIST ||--o{ WISHLIST_ITEM : contains
+    USER ||--o{ DECK : creates
+    USER ||--o{ GAME_SESSION : owns
+    GAME_SESSION ||--o{ GAME_PLAYER : includes
+    USER o|--o{ GAME_PLAYER : optionally_identifies
+    CARD_SET ||--o{ CARD_PRINT : contains
+    CARD_ORACLE o|--o{ CARD_PRINT : groups
+    CARD_PRINT ||--o{ COLLECTION_ITEM : referenced_by
+    CARD_PRINT ||--o{ WISHLIST_ITEM : referenced_by
+    DECK ||--o{ DECK_ENTRY : contains
+    CARD_PRINT ||--o{ DECK_ENTRY : uses
+    USER {
+        int id PK
+        string username UK
+        string email UK
+        boolean is_active
+    }
+    LOCAL_CREDENTIAL {
+        int user_id PK, FK
+        string password_hash
+        boolean is_verified
+    }
+    SOCIAL_IDENTITY {
+        int id PK
+        int user_id FK
+        string provider
+        string provider_subject
+    }
+    AUTH_SESSION {
+        uuid id PK
+        int user_id FK
+        string refresh_token_hash
+        datetime expires_at
+        datetime revoked_at
+    }
+    CARD_ORACLE {
+        uuid oracle_id PK
+        string name
+    }
+    CARD_SET {
+        uuid scryfall_set_id PK
+        string set_code UK
+        string set_name
+    }
+    CARD_PRINT {
+        uuid scryfall_id PK
+        uuid oracle_id FK
+        uuid set_id FK
+        string collector_number
+        string lang
+    }
+    COLLECTION_ITEM {
+        int id PK
+        int user_id FK
+        uuid scryfall_id FK
+        int quantity
+    }
+    WISHLIST {
+        int id PK
+        int user_id FK
+        string title
+    }
+    WISHLIST_ITEM {
+        int id PK
+        int wishlist_id FK
+        uuid scryfall_id FK
+    }
+    DECK {
+        int id PK
+        int user_id FK
+        string title
+        string format
+    }
+    DECK_ENTRY {
+        int id PK
+        int deck_id FK
+        uuid scryfall_id FK
+        int quantity
+        string zone
+    }
+    GAME_SESSION {
+        int id PK
+        int user_id FK
+        datetime started_at
+    }
+    GAME_PLAYER {
+        int id PK
+        int game_session_id FK
+        int user_id FK
+        string display_name
+        int life_total
+    }</code></pre>
+<h3 id="card-data-ingestion">Card Data Ingestion<a class="headerlink" href="#card-data-ingestion" title="Permanent link">&para;</a></h3>
+<p>The target for Arcane Archive is to ingest Scryfall's bulk data file containing 52,000+ cards. This will allow me to 
+have a high-performance application that will remain sustainable at zero cost. A daily import of the bulk data file 
+will take place to provide the most up-to-date card data.</p>
+<p><strong>Card Ingestion Process</strong>:
+1. Retrieve and Download the bulk data file from Scryfall's API.
+2. Validate and normalize the data, while preserving Scryfall's identifiers.
+3. Upsert the data into the PostgreSQL database, ensuring that existing records are updated and new records are 
+   inserted.
+4. Publish the updated card data to the Redis cache for real-time updates.
+5. Record the latest version, import time, record counts, duration, rejected records, and outcome.
+6. Retain the last successful catalog on download, validation, or import failure and alert on staleness.</p>
+<p>See <a href="https://scryfall.com/docs/api/bulk-data">Scryfall Bulk Data</a> and <a href="https://scryfall.com/docs/syntax">API Usage Guide</a> 
+for more information on the bulk data file format.</p>
+<h3 id="local-first-card-retrieval-failure-handling">Local-First Card Retrieval &amp; Failure Handling<a class="headerlink" href="#local-first-card-retrieval-failure-handling" title="Permanent link">&para;</a></h3>
+<p>Card search uses Redis as a cache-aside for public card data. The application will first attempt to retrieve the 
+catalog from Redis. If the Redis cache is unavailable, the application will attempt to retrieve the catalog from the
+local catalog. If the local catalog is unavailable, the application will attempt to retrieve the catalog from 
+Scryfall's API.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Client
+    participant Router
+    participant Service as Card Search Service
+    participant Data as Card Retrieval Adapter
+    participant Cache as Redis
+    participant DB as PostgreSQL
+    participant External as Scryfall API
+    Client-&gt;&gt;Router: GET /cards/search
+    Router-&gt;&gt;Service: Search with validated parameters
+    Service-&gt;&gt;Data: Retrieve normalized card results
+    Data-&gt;&gt;Cache: Read public query cache
+    alt Valid cache hit
+        Cache--&gt;&gt;Data: Cached results
+    else Miss or cache unavailable
+        Data-&gt;&gt;DB: Query local catalog
+        alt Local query succeeds
+            DB--&gt;&gt;Data: Results (possibly empty)
+            opt Cache available
+                Data-&gt;&gt;Cache: Store results with TTL
+            end
+        else Local catalog unavailable
+            opt Approved external fallback for this query
+                Data-&gt;&gt;External: Bounded HTTPS lookup
+                External--&gt;&gt;Data: Result or upstream error
+            end
+        end
+    end
+    Data--&gt;&gt;Service: Normalized result or availability error
+    Service--&gt;&gt;Router: Use case result
+    Router--&gt;&gt;Client: HTTP response</code></pre>
+<h3 id="user-registration-flow">User Registration Flow<a class="headerlink" href="#user-registration-flow" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Client
+    participant Router
+    participant Auth as Authentication Service
+    participant Users as User Repository
+    participant Creds as Credential Repository
+    participant UOW as Transaction Boundary
+    participant DB as PostgreSQL
+    Client-&gt;&gt;Router: POST /register
+    Router-&gt;&gt;Auth: Register validated input
+    Auth-&gt;&gt;Auth: Check policy and hash password
+    Auth-&gt;&gt;UOW: Begin transaction
+    Auth-&gt;&gt;Users: Check account identifiers
+    Users-&gt;&gt;DB: Query existing user
+    alt Account conflict
+        Auth-&gt;&gt;UOW: Roll back
+        Auth--&gt;&gt;Router: Registration conflict
+        Router--&gt;&gt;Client: Conflict response
+    else No existing account
+        Auth-&gt;&gt;Users: Create user and flush
+        Users-&gt;&gt;DB: INSERT user
+        Auth-&gt;&gt;Creds: Create local credential
+        Creds-&gt;&gt;DB: INSERT credential
+        alt Writes and commit succeed
+            Auth-&gt;&gt;UOW: Commit
+            Auth--&gt;&gt;Router: Registration result
+            Router--&gt;&gt;Client: 201 Created
+        else Constraint or persistence failure
+            Auth-&gt;&gt;UOW: Roll back
+            Auth--&gt;&gt;Router: Mapped error
+            Router--&gt;&gt;Client: Appropriate error response
+        end
+    end</code></pre>
+<h3 id="cloud-infrastructure-selection">Cloud Infrastructure Selection<a class="headerlink" href="#cloud-infrastructure-selection" title="Permanent link">&para;</a></h3>
+<p>I selected Oracle Cloud Infrastructure (OCI) for this project primarily due to its always free tier which allows for 
+cost efficiency without sacrificing performance.  Their Ampere A1 compute shapes provide a high memory capacity of 24GBs, 
+which is required to host the application, a PostgreSQL database, and a Redis Cache in a single instance. The free tier will also 
+be enough for the data ingestion of Scryfall's bulk data file containing 52,000+ cards. This allows me to have a 
+high-performance application that will remain sustainable at zero cost.</p>
+<h3 id="dmz-network-architecture">DMZ &amp; Network Architecture<a class="headerlink" href="#dmz-network-architecture" title="Permanent link">&para;</a></h3>
+<p>I implemented a DMZ(Demilitarized Zone) to separate the public-facing services from the internal services. 
+This provides an additional layer of security and helps to prevent unauthorized access to sensitive data like user credentials.
+I did this using OCI's Virtual Cloud Network (VCN). By placing the API and Database in a private subnet and only exposing 
+the load balancer to the public, I ensure that user data remains unaccessible from the public internet.</p>
+<p>I implemented several security measures to protect user data and ensure the integrity of the application. 
+These include using HTTPS for all API requests and implementing JWT authentication for secure user sessions. 
+Additionally, I use dependency injection for testability and loose coupling, which helps to prevent injection attacks.</p>
+<p>I used NGINX as a reverse proxy to handle the incoming requests.  This is the entry point within the DMZ which ensures 
+that all incoming requests are authenticated and encrypted before reaching the API.</p>
+<p>I used the OCI Service Gateway to ensure that the API can securely communicate with OCI Object Storage
+for card image storage and retrieval. This allows the private subnet to securely access OCI Object Storage without exposing 
+it to the public internet.</p>
+<p>I used OCI Logging and Monitoring to ensure that the application is monitored and that any errors are 
+detected and addressed as soon as possible. This also provides me with visibility of the Docker stack to manage the
+24GBs of RAM for the Oracle Cloud infrastructure efficiently.</p>
+<h2 id="data-storage-retrieval">Data Storage &amp; Retrieval<a class="headerlink" href="#data-storage-retrieval" title="Permanent link">&para;</a></h2>
+<h3 id="sql-vs-nosql-database">SQL Vs. NoSQL Database<a class="headerlink" href="#sql-vs-nosql-database" title="Permanent link">&para;</a></h3>
+<p>I chose to use a PostgreSQL Database for this project because it provides a robust and reliable way to store and retrieve data. 
+PostgreSQL is well-suited for complex queries and transactions, which are essential for handling user collections, 
+wishlists, and other features of the Arcane Archive application. Additionally, PostgreSQL provides ACID compliance, 
+which ensures data consistency and reliability. By choosing PostgreSQL, I also gain access to the pgvector extension. 
+This will allow me to store AI-generated card embeddings for semantic search, which enables the AI Deck Builder to 
+find cards based on their 'feel' or 'strategy' rather than just keywords.</p>
+<h3 id="postgresql-with-pgvector">PostgreSQL with pgVector<a class="headerlink" href="#postgresql-with-pgvector" title="Permanent link">&para;</a></h3>
+<p>I chose PostgreSQL for its ACID compliance and robustness in handling complex queries for user collections. By using 
+pgVector, I can store AI-generated card embeddings. This enables a semantic search feature allowing the AI Deck Builder 
+to find cards based on strategic feel, like aggressive, defensive, or control, rather than just keyword matching.</p>
+<h3 id="dual-path-data-ingestion-with-scryfall-api-bulk-data-file">Dual-Path Data Ingestion with Scryfall API &amp; Bulk Data File<a class="headerlink" href="#dual-path-data-ingestion-with-scryfall-api-bulk-data-file" title="Permanent link">&para;</a></h3>
+<p>I chose to use Scryfall's API for real-time card data updates and to adhere to their API usage policies. 
+However, for bulk data ingestion, I use Scryfall's bulk data file to ensure data consistency and to avoid hitting the API rate limit. 
+This approach allows for a balance between real-time updates and efficient data ingestion.</p>
+<h3 id="scryfall-data-usage-and-rate-limiting">Scryfall Data Usage and Rate Limiting<a class="headerlink" href="#scryfall-data-usage-and-rate-limiting" title="Permanent link">&para;</a></h3>
+<p>To adhere to Scryfall's API usage policies, I implemented a 100ms rate limit for all calls to api.scryfall.com to avoid 429 errors. 
+For image assets, I used a Bulk-to-CDN path: the app extracts image URIs from the locally processed bulk JSON file 
+and fetches the assets from the .scryfall.io domain. Because the image CDN is decoupled from the primary API rate limits
+(scryfall.io doesn't require a rate limit), this allows the app to lazily cache high-resolution card art to OCI Object Storage without risking an API ban. </p>
+<h3 id="hotlinking-vs-object-storage">Hotlinking Vs. Object Storage<a class="headerlink" href="#hotlinking-vs-object-storage" title="Permanent link">&para;</a></h3>
+<p>To avoid hotlinking issues, I chose to use OCI Object Storage to store card images. Images that are not
+used are not directly linked from Scryfall's servers, reducing the risk of being blocked by Scryfall's rate limits or \
+other policies.</p>
+<p>Because the image CDN is decoupled from the primary API rate limits on Scryfall's API (scryfall.io doesn't require a 
+rate limit), this allows the app to lazily cache high-resolution card art to OCI Object Storage without risking an API
+ban.</p>
+<p>I will implement this lazy loading strategy where the application first checks the OCI Object Storage for the card image, 
+and if the card is not found, it fetches the card image from Scryfall's CDN. This ensures that the application 
+does not exceed the rate limit on api.scryfall.com and minimizes API calls.</p>
+<h3 id="asyncsession-for-database-transactions">AsyncSession for Database Transactions<a class="headerlink" href="#asyncsession-for-database-transactions" title="Permanent link">&para;</a></h3>
+<p>I chose to use AsyncSession for database transactions because it allows multiple concurrent database transactions 
+without blocking other transactions, improving performance and scalability. </p>
+<h3 id="dependency-injection-for-testability">Dependency Injection for Testability<a class="headerlink" href="#dependency-injection-for-testability" title="Permanent link">&para;</a></h3>
+<p>I chose to use FastAPI's Dependency Injection for testability. This allows for easy mocking of repositories during testing, 
+which high code coverage without needing a live database connection. Dependency Injection also provides loose coupling 
+and makes the codebase more testable, maintainable, and scalable.</p>
+<h2 id="performance-resource-management">Performance &amp; Resource Management<a class="headerlink" href="#performance-resource-management" title="Permanent link">&para;</a></h2>
+<h3 id="connection-pooling-with-pgbouncer">Connection Pooling with pgBouncer<a class="headerlink" href="#connection-pooling-with-pgbouncer" title="Permanent link">&para;</a></h3>
+<p>I chose to use pgBouncer for connection pooling, a cache of database connections that can be reused for multiple client requests
+to improve performance and reduce the number of database connections. This also helps to prevent connection overload and 
+ensures efficient resource utilization. This would allow hundreds of concurrent mobile sessions with only a small number of database connections.*</p>
+<p>This will significantly reduce the overhead on the 24GBs RAM allowance with Oracle Cloud and prevents 
+"too many connections" errors, which are commonly encountered with high-traffic MTG searches.</p>
+<h3 id="in-memory-caching-with-redis">In-memory Caching with Redis<a class="headerlink" href="#in-memory-caching-with-redis" title="Permanent link">&para;</a></h3>
+<p>I chose to use Redis for in-memory caching to reduce latency and improve performance for frequently accessed data like search results and card data.*</p>
+<h2 id="data-reliability-disaster-recovery">Data Reliability &amp; Disaster Recovery<a class="headerlink" href="#data-reliability-disaster-recovery" title="Permanent link">&para;</a></h2>
+<h3 id="data-backup-and-recovery-with-pgbackrest">Data Backup and Recovery with pgBackRest<a class="headerlink" href="#data-backup-and-recovery-with-pgbackrest" title="Permanent link">&para;</a></h3>
+<p>I chose to use pgBackRest for data backup and recovery. This ensures that data is backed up regularly and can be restored 
+in case of a disaster or data loss. pgBackRest provides Point-in-Time Recovery, allowing me 
+to recover the database to a specific second if a data corruption event occurs.</p>
+<h3 id="cap-consistency-partition-tolerance">CAP: Consistency &amp; Partition Tolerance<a class="headerlink" href="#cap-consistency-partition-tolerance" title="Permanent link">&para;</a></h3>
+<p>I chose to prioritize Consistency and Partition Tolerance for this project. This is because the Arcane Archive application 
+requires data consistency and reliability for user collections, wishlists, and other features. Consistency ensures that 
+data is accurate and up to date, while Partition Tolerance allows the application to continue functioning even if some 
+parts of the system fail. Users expect their data to be accurate and reliable, and this approach ensures that the application 
+meets those expectations. A user would rather hit retry than see incorrect or incomplete data (e.g., missing cards in 
+their collection or incomplete deck creation).</p>
+<h3 id="data-integrity-via-schemas">Data Integrity via Schemas<a class="headerlink" href="#data-integrity-via-schemas" title="Permanent link">&para;</a></h3>
+<p>I chose to use Pydantic schemas for data validation and normalization. This ensures that data is consistent and reliable<br />
+and helps to prevent errors and inconsistencies in the database. This also ensures that sensitive database information is 
+protected and is never exposed to the outside world.</p>
+<h3 id="dependency-management-and-virtual-environment">Dependency Management and Virtual Environment<a class="headerlink" href="#dependency-management-and-virtual-environment" title="Permanent link">&para;</a></h3>
+<p>I decided to use Poetry for dependency management and virtual environment management mainly for its ease of use
+and flexibility. By using Poetry, I can easily manage dependencies and virtual environments for my project, 
+ensuring a consistent and reproducible development environment. Using Poetry's lockfile also ensures deterministic builds, 
+allowing for consistent and reliable dependencies across different environments (e.g., development, testing, and production).
+This effectively eliminates "It works on my machine" bugs.</p>
+<h2 id="scalability">Scalability<a class="headerlink" href="#scalability" title="Permanent link">&para;</a></h2>
+<p>To ensure the Arcane Archive backend can handle an increased load and traffic, the following scalability strategies are 
+applied:</p>
+<ol>
+<li>In-memory caching with Redis for caching search results and card data to reduce latency and improve performance.</li>
+<li>Load balancing to distribute incoming traffic across multiple server instances.</li>
+<li>Database optimization with indexing and read replicas to enhance query performance and handle an increased load.</li>
+<li>Asynchronous task processing with Celery and RabbitMQ for handling background tasks like card data updates.</li>
+<li>Containerization with Docker for consistent deployment across different environments.</li>
+<li>Horizontal scaling by adding more instances of the application server as demand increases.</li>
+</ol>
+<h3 id="dependency-injection">Dependency Injection<a class="headerlink" href="#dependency-injection" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Router
+    participant DI as Dependency Composition
+    participant DB as AsyncSession Factory
+    participant Service
+    Router-&gt;&gt;DI: Resolve request dependencies
+    DI-&gt;&gt;DB: Open request-scoped session
+    DI-&gt;&gt;DI: Construct scoped repositories and service
+    DI--&gt;&gt;Router: Service with supplied dependencies
+    Router-&gt;&gt;Service: Execute use case
+    Service--&gt;&gt;Router: Result or mapped error
+    DI-&gt;&gt;DB: Close session / release connection</code></pre>
+<h2 id="license-and-attribution">License and Attribution<a class="headerlink" href="#license-and-attribution" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is documented as an MIT-licensed project.</p>
+<p>Magic: The Gathering and associated intellectual property are owned by 
+<a href="https://company.wizards.com/en/legal/intellectualproperty">Wizards of the Coast LLC</a>. Arcane Archive is an 
+unofficial fan project and is not approved or endorsed by Wizards of the Coast. Use of MTG materials is subject to the 
+<a href="https://company.wizards.com/en/legal/fancontentpolicy">Wizards of the Coast Fan Content Policy</a>.</p>
+<p>Card information and images are sourced through <a href="https://scryfall.com">Scryfall</a>. Scryfall is a third-party service and
+does not endorse Arcane Archive. Integrations and displayed content are subject to applicable Scryfall usage and 
+attribution requirements.</p>
+<h2 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Framework</td>
+<td>FastAPI</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>Uvicorn</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL (Oracle Cloud)</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>SQLAlchemy 2.0</td>
+</tr>
+<tr>
+<td>Migrations</td>
+<td>Alembic</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Pydantic v2</td>
+</tr>
+<tr>
+<td>Dependency Injection</td>
+<td>FastAPI Depends + dependency-injector</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>JWT (python-jose), Firebase Admin SDK</td>
+</tr>
+<tr>
+<td>External APIs</td>
+<td>Scryfall API</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>pytest, pytest-asyncio</td>
+</tr>
+<tr>
+<td>Package Manager</td>
+<td>Poetry</td>
+</tr>
+</tbody>
+</table>
+<h2 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>arcane-archive-backend/
+├── main.py                    # FastAPI application entry point
+├── database.py                # SQLAlchemy engine &amp; session management
+├── container.py               # Dependency injection container
+├── firebase_config.py        # Firebase SDK initialization
+├── common/
+│   ├── base.py              # Base model class
+│   ├── config.py            # Configuration settings
+│   ├── repository.py        # Generic repository
+│   └── dependencies.py      # FastAPI dependencies
+├── models/                   # SQLAlchemy models
+│   └── cards.py
+├── schemas/                  # Pydantic schemas
+│   └── cards_schema.py
+├── repositories/            # Data access repositories
+│   └── card_repository.py
+├── routers/                  # API routers
+│   └── scryfall_advanced_card_search_router.py
+├── authentication/
+│   ├── models/             # Auth-related models
+│   ├── repositories/       # Auth repositories
+│   ├── routers/           # Auth routers
+│   ├── schemas/           # Auth schemas
+│   ├── services/          # Auth services
+│   └── security.py        # Password hashing &amp; JWT
+├── alembic/                 # Database migrations
+├── tests/                   # Test suite
+└── pyproject.toml          # Project dependencies
+</code></pre></div>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Password Hashing</strong>: Uses bcrypt via <code>passlib</code></li>
+<li><strong>JWT Tokens</strong>: Token-based authentication with expiration</li>
+<li><strong>Firebase Auth</strong>: External authentication provider integration</li>
+<li><strong>CORS</strong>: Configured for specific frontend origins only</li>
+<li><strong>Input Validation</strong>: Pydantic models validate all inputs</li>
+</ul>
+<h1 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h1>
+<p>[1] <a href="./docs/scryfall_api_docs.md">Scryfall API Documentation</a></p>
+<p>[2] <a href="https://scryfall.com/docs/api/bulk-data">Scryfall Bulk Data</a></p>
+<p>[3] <a href="https://scryfall.com/docs/api/rate-limits">Scryfall API Rate Limits</a></p>
+<p>[4] <a href="https://scryfall.com/docs/api/terms-of-service">Scryfall API Terms of Service</a></p>
+<p>[5] <a href="https://www.educative.io/courses/grokking-nodejs-design-patterns-interview/the-solid-principles?utm_term=&amp;utm_campaign=%5BNew+-+Mar+24%5D+Brand+Core+Performance+Max&amp;utm_source=adwords&amp;utm_medium=ppc&amp;hsa_acc=5451446008&amp;hsa_cam=21099703438&amp;hsa_grp=&amp;hsa_ad=&amp;hsa_src=x&amp;hsa_tgt=&amp;hsa_kw=&amp;hsa_mt=&amp;hsa_net=adwords&amp;hsa_ver=3&amp;gad_source=1&amp;gad_campaignid=21089679273&amp;gbraid=0AAAAADfWLuTbsmqmcbl__NU46v6gbqzBt&amp;gclid=Cj0KCQiAwdDXBhDuARIsAFdLukmnOU6EwFDIUf2sLaYWhCMsrXM_vLegr8qrXQBJ5aE1k0uRwAqywrEaAgZnEALw_wcB">SOLID Principles</a></p>
+<p>[6] <a href="https://www.educative.io/courses/grokking-nodejs-design-patterns-interview/the-repository-pattern?utm_term=&amp;utm_campaign=%5BNew+-+Mar+24%5D+Brand+Core+Performance+Max&amp;utm_source=adwords&amp;utm_medium=ppc&amp;hsa_acc=5451446008&amp;hsa_cam=21099703438&amp;hsa_grp=&amp;hsa_ad=&amp;hsa_src=x&amp;hsa_tgt=&amp;hsa_kw=&amp;hsa_mt=&amp;hsa_net=adwords&amp;hsa_ver=3&amp;gad_source=1&amp;gad_campaignid=21089679273&amp;gbraid=0AAAAADfWLuTbsmqmcbl__NU46v6gbqzBt&amp;gclid=Cj0KCQiAwdDXBhDuARIsAFdLukmnOU6EwFDIUf2sLaYWhCMsrXM_vLegr8qrXQBJ5aE1k0uRwAqywrEaAgZnEALw_wcB">Repository Pattern</a></p>
+<p>[7] <a href="https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design">SOLID - The first five principles of Object-Oriented Design</a></p>
+<p>[8] <a href="https://company.wizards.com/en/legal/fancontentpolicy">Wizards of the Coast Fan Content Policy</a></p>
+<p>[9] <a href="https://company.wizards.com/en/legal/intellectualproperty">Wizards of the Coast Intellectual Property</a></p>
+<p>[10] <a href="https://www.dandoescode.com/blog/modular-monolith/a-gentle-introduction">Modular Monolith</a></p>
+<p>[11] <a href="https://docs.sqlalchemy.org/en/20/orm/session_transaction.html">Transaction Management with SQLAlchemy</a></p>
+<p>[12] <a href="https://fastapi.tiangolo.com/tutorial/dependencies/">Dependency Injection in FastAPI</a></p>
+<p>[13] <a href="https://www.pgbouncer.org/">pgBouncer</a></p>
+<p>[14] <a href="https://github.com/pgvector/pgvector">pgVector</a></p>
+<p>[15] <a href="https://pgbackrest.org/">pgBackrest</a></p>
+<p>[16] <a href="https://redis.io/">Redis</a></p>
+<p>[17] <a href="https://redis.io/tutorials/howtos/solutions/microservices/caching/">Redis Cache Aside</a></p>
+<p>[18] <a href="https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm">OCI Object Storage</a></p>
+<p>[19] <a href="https://pgbackrest.org/user-guide.html">pgBackrest - User Guide</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

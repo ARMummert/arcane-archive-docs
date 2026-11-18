@@ -1,0 +1,1578 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical Documentation for the Arcane Archive Companion Application">
+      
+      
+        <meta name="author" content="Amy Mummert">
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../system-architecture-and-design/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Overview and Installation - Arcane Archive Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="light-green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arcane-archive-mtg-companion-app" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Arcane Archive Docs" class="md-header__button md-logo" aria-label="Arcane Archive Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arcane Archive Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview and Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://armummert.github.io/arcane-archive-docs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Armummert
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Arcane Archive Docs" class="md-nav__button md-logo" aria-label="Arcane Archive Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Arcane Archive Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://armummert.github.io/arcane-archive-docs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Armummert
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Suite
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Documentation Suite
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview and Installation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview and Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-audience-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target Audience &amp; Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-and-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation and Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation and Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-poetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Poetry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone-the-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone the Repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-poetry-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Poetry Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-poetry-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Poetry Virtual Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-docker-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Docker Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-the-docker-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start the Docker Containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firebase-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firebase Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Migrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialize-card-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialize Card Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launch-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Launch the API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scryfall-api-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scryfall API Integration:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core API Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-access-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Access &amp; Rate Limiting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license-and-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License and Attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system-architecture-and-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scryfall_api_docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scryfall Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-audience-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Target Audience &amp; Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-and-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation and Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation and Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-poetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Poetry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone-the-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone the Repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-poetry-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Poetry Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-poetry-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Poetry Virtual Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-docker-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Docker Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-the-docker-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start the Docker Containers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firebase-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firebase Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Migrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialize-card-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialize Card Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launch-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Launch the API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scryfall-api-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scryfall API Integration:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core API Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-access-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Access &amp; Rate Limiting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license-and-attribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License and Attribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="arcane-archive-mtg-companion-app">Arcane Archive – MTG Companion App<a class="headerlink" href="#arcane-archive-mtg-companion-app" title="Permanent link">&para;</a></h1>
+<p><strong>Backend API and card-data services for the Arcane Archive mobile application.</strong></p>
+<p><img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-005571?style=flat&amp;logo=fastapi" />
+<img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=flat&amp;logo=python" />
+<img alt="Poetry" src="https://img.shields.io/badge/Poetry-000000?style=flat&amp;logo=poetry" />
+<img alt="Pydantic" src="https://img.shields.io/badge/Pydantic-0D36A0?style=flat&amp;logo=pydantic" />
+<img alt="Alembic" src="https://img.shields.io/badge/Alembic-009688?style=flat&amp;logo=alembic" />
+<img alt="SQLAlchemy" src="https://img.shields.io/badge/SQLAlchemy-181307?style=flat&amp;logo=sqlalchemy" />
+<img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-316192?style=flat&amp;logo=postgresql" /></p>
+<p><img alt="React Native" src="https://img.shields.io/badge/React_Native-20232A?style=flat&amp;logo=react" />
+<img alt="Redis" src="https://img.shields.io/badge/Redis-DC382D?style=flat&amp;logo=redis" />
+<img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=flat&amp;logo=docker" />
+<img alt="Expo" src="https://img.shields.io/badge/Expo-1B1F23?style=flat&amp;logo=expo" /></p>
+<p>Arcane Archive is a Magic: The Gathering(MTG) companion app. It is a user-friendly mobile application that is designed 
+to enhance an MTG player's experience that helps users manage their card collections, create wishlists, build decks, and 
+track their games.  In addition to these features, an AI Deck Builder is planned for future implementation.</p>
+<p>The backend uses PostgreSQL to persist card data and user information. Scryfall API is integrated to provide card 
+information and images by using the bulk data download feature. An AI-assisted deck builder is planned for future
+implementation.</p>
+<h2 id="objectives">Objectives<a class="headerlink" href="#objectives" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Library Management: Provide a card library so users can manage card collections, including library 
+  organization, wish lists, card collections, and set management.</li>
+<li>Card Search: Offer both an advanced and simple user-friendly search feature that allows users to easily find specific 
+  cards or sets. </li>
+<li>Game Tracker: Include essential game tools such as a multi-player game tracker that tracks a player’s name, damage, tax,
+  mana count, counters, life counter, and other game stats.</li>
+<li>Deck Builder: Provide a comprehensive deck building feature with the ability to save the deck to a user’s library.</li>
+<li>User Accounts: Support private user accounts, profiles, collections, wishlists, and saved decks.</li>
+<li>Card Scanner: Provide a card scanner to easily add cards to a user’s library.</li>
+<li>Mobile Support: Support mobile devices and platforms with user-friendly design.</li>
+<li>Reliable Card Data: Integrate Scryfall API reference data through controlled API access and bulk data ingestion.</li>
+</ul>
+<h2 id="target-audience-access">Target Audience &amp; Access<a class="headerlink" href="#target-audience-access" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is designed for casual, competitive, and Commander MTG players who want to manage their card collections,
+build decks, search cards and sets, and track their games. Card browsing and searching are always available for free, 
+but users must create an account to access the full features of the application.</p>
+<p><strong>Age Range 8+:</strong> The application is designed to be enjoyable for users of all ages, from children to adults. Users 
+under 13 years old must have parental consent and approval to create an account and use the application.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is a mobile application for Magic: The Gathering players, built with React Native, TypeScript, Expo, and 
+FastAPI. Players can create a profile where their game stats, card library, wish lists, and other preferences are stored. 
+Arcane Archive offers an advanced and simple search feature, a deck builder, user profile, card library, card scanner, 
+and the ability to create wishlists. The app also includes a multi-player game tracker that tracks a player’s name, 
+damage, tax, mana count, counters, a life counter, and other stats. Integrated with Scryfall API, Arcane Archive 
+provides daily updates to the most current card data.</p>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FastAPI Backend</td>
+<td>HTTP routers, pydantic schemas, and OpenAPI support</td>
+</tr>
+<tr>
+<td>Local user authentication</td>
+<td>JWT-based authentication with password hashing and salting</td>
+</tr>
+<tr>
+<td>Firebase social authentication</td>
+<td>OAuth2-based authentication with Google, Facebook, and Apple</td>
+</tr>
+<tr>
+<td>Simple &amp; Advanced Search</td>
+<td>Search for cards by name, set, or other criteria</td>
+</tr>
+<tr>
+<td>Scryfall API Integration</td>
+<td>Bulk downloads, normalization, and database upserts</td>
+</tr>
+<tr>
+<td>Player Profile Management</td>
+<td>User profile management, preferences, and game stats</td>
+</tr>
+<tr>
+<td>Card Library Management</td>
+<td>Manage card collections, wishlists, and sets</td>
+</tr>
+<tr>
+<td>Wishlist Management</td>
+<td>Create, edit, and delete wishlists</td>
+</tr>
+<tr>
+<td>Deck Builder</td>
+<td>Create, edit, and manage decks</td>
+</tr>
+<tr>
+<td>Card Scanner</td>
+<td>Scan cards to add to the user's library</td>
+</tr>
+<tr>
+<td>Redis Caching</td>
+<td>Cache-aside for public card data</td>
+</tr>
+<tr>
+<td>pgVector &amp; AI Deck Builder (Future)</td>
+<td>Store AI-generated card embeddings for semantic search</td>
+</tr>
+<tr>
+<td>pgBouncer &amp; pgBackRest</td>
+<td>Connection pooling and backup/recovery for PostgreSQL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="installation-and-setup">Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Permanent link">&para;</a></h2>
+<p>These instructions apply to the backend API. For the mobile app setup information, please refer to the frontend API 
+documentation.</p>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Git</li>
+<li>Python 3.11 or higher</li>
+<li>Poetry for dependency management and virtual environment management</li>
+<li>PostgreSQL 15 or higher</li>
+<li>Redis</li>
+<li>Firebase Account (Optional)</li>
+<li>Docker &amp; Docker Compose</li>
+</ol>
+<h3 id="install-poetry">Install Poetry<a class="headerlink" href="#install-poetry" title="Permanent link">&para;</a></h3>
+<p>Install Poetry using the official installer → <a href="https://python-poetry.org/docs/#installation">Poetry Installation Guide</a></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>poetry
+</code></pre></div>
+<h3 id="clone-the-repository">Clone the Repository<a class="headerlink" href="#clone-the-repository" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ARMummert/arcane-archive-backend.git
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>./arcane-archive-backend
+</code></pre></div>
+<h3 id="verify-poetry-version">Verify Poetry Version<a class="headerlink" href="#verify-poetry-version" title="Permanent link">&para;</a></h3>
+<p>If you don't have Poetry installed yet, you can install it via the official installer.</p>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>--version
+</code></pre></div>
+<h3 id="create-a-poetry-virtual-environment">Create a Poetry Virtual Environment<a class="headerlink" href="#create-a-poetry-virtual-environment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>env<span class="w"> </span>activate
+
+poetry<span class="w"> </span>env<span class="w"> </span>info
+</code></pre></div>
+<p>This should show you the path to the virtual environment, which should be .venv in the project directory. If it doesn't, 
+you can set it to be in the project directory with:</p>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>config<span class="w"> </span>virtualenvs.in-project<span class="w"> </span><span class="nb">true</span>
+
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</code></pre></div>
+<h3 id="install-dependencies">Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>install<span class="w"> </span>
+</code></pre></div>
+<h3 id="check-docker-configuration">Check Docker Configuration<a class="headerlink" href="#check-docker-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>--version
+docker-compose<span class="w"> </span>--version
+docker<span class="w"> </span>compose<span class="w"> </span>config<span class="w"> </span>--services
+</code></pre></div>
+<h3 id="start-the-docker-containers">Start the Docker Containers<a class="headerlink" href="#start-the-docker-containers" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<h3 id="environment-configuration">Environment Configuration<a class="headerlink" href="#environment-configuration" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Copy the .env.example file into the root directory.
+   <div class="highlight"><pre><span></span><code>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</code></pre></div></p>
+</li>
+<li>
+<p>Enter your database configuration in the .env file.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nv">DB_USER</span><span class="o">=</span>Username
+<span class="nv">DB_PASSWORD</span><span class="o">=</span>Password
+<span class="nv">DB_HOST</span><span class="o">=</span>localhost
+<span class="nv">DB_PORT</span><span class="o">=</span><span class="m">5432</span>
+<span class="nv">DB_NAME</span><span class="o">=</span>arcane_archive_db
+</code></pre></div>
+<ol>
+<li>Create a separate .env.test file in the test directory for testing purposes.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nv">TEST_DB_USER</span><span class="o">=</span>Username
+<span class="nv">TEST_DB_PASSWORD</span><span class="o">=</span>Password
+<span class="nv">TEST_DB_HOST</span><span class="o">=</span>localhost
+<span class="nv">TEST_DB_PORT</span><span class="o">=</span><span class="m">5432</span>
+<span class="nv">TEST_DB_NAME</span><span class="o">=</span>arcane_archive_db_test
+</code></pre></div>
+<h3 id="firebase-configuration">Firebase Configuration<a class="headerlink" href="#firebase-configuration" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Signup or Signin to your Firebase Project and create a Service Account Key.</li>
+<li>Configure the provider and mobile-client settings as required by
+   <a href="https://firebase.google.com/docs/admin/setup#initialize-sdk">Firebase ADM SDK</a>.</li>
+<li>Configure the backend Firebase ADM SDK using firebase_config.py in the config directory.</li>
+<li>Save the Service Account Key as service_account.json in the config directory.</li>
+<li>Make sure you add the ./config directory to your .gitignore file.</li>
+<li>Verify that the backend can validate a Firebase ID token from the correct project.</li>
+</ol>
+<p>See the <a href="https://firebase.google.com/docs/auth/admin/verify-id-tokens">Firebase Authentication Guide</a> and
+<a href="https://firebase.google.com/docs/admin/setup#initialize-sdk">Firebase ADM SDK</a> documentation for more information.</p>
+<h3 id="database-migrations">Database Migrations<a class="headerlink" href="#database-migrations" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Generate the Alembic.ini file in the root directory and edit it to reflect your database configuration.</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>alembic<span class="w"> </span>init<span class="w"> </span>alembic
+</code></pre></div>
+</li>
+<li>
+<p>Run your database migrations through the Poetry-managed environment.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>alembic<span class="w"> </span>upgrade<span class="w"> </span>head
+<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>alembic<span class="w"> </span>current
+</code></pre></div>
+<ol>
+<li>To create a new migration, run the following command:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>alembic<span class="w"> </span>revision<span class="w"> </span>--autogenerate<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Migration message"</span>
+</code></pre></div>
+<ol>
+<li>To downgrade the database to a previous migration, run the following command:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>alembic<span class="w"> </span>downgrade<span class="w"> </span>&lt;revision&gt;
+</code></pre></div>
+<ol>
+<li>To view the current revision of the database, run the following command:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>alembic<span class="w"> </span>current
+</code></pre></div>
+<p>See the <a href="https://alembic.sqlalchemy.org/en/latest/">Alembic Documentation</a> for more information on Alembic.</p>
+<h3 id="initialize-card-data">Initialize Card Data<a class="headerlink" href="#initialize-card-data" title="Permanent link">&para;</a></h3>
+<p>Run the repositories bulk data ingestion script to download and ingest the Scryfall bulk data into the PostgreSQL database.</p>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/ingest_bulk_data.py
+</code></pre></div>
+<h3 id="launch-the-api">Launch the API<a class="headerlink" href="#launch-the-api" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Start the development server. </li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>main:app<span class="w"> </span>--reload<span class="w"> </span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+<h3 id="run-tests">Run Tests<a class="headerlink" href="#run-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>run<span class="w"> </span>pytest
+</code></pre></div>
+<h2 id="api-documentation">API Documentation<a class="headerlink" href="#api-documentation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="http://127.0.0.1:8000/docs">Swagger UI</a></li>
+<li><a href="http://127.0.0.1:8000/openapi.json">OpenAPI JSON</a></li>
+</ul>
+<h2 id="system-overview">System Overview<a class="headerlink" href="#system-overview" title="Permanent link">&para;</a></h2>
+<h3 id="technology-stack">Technology Stack<a class="headerlink" href="#technology-stack" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mobile App</td>
+<td>React Native, Expo, TypeScript</td>
+</tr>
+<tr>
+<td>Backend API</td>
+<td>FastAPI, Uvicorn</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Pydantic v2</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>SQLAlchemy 2.0</td>
+</tr>
+<tr>
+<td>Migrations</td>
+<td>Alembic</td>
+</tr>
+<tr>
+<td>Dependency Management</td>
+<td>Poetry</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Password hashing, JWT, Firebase Social Auth</td>
+</tr>
+<tr>
+<td>Data Source</td>
+<td>Scryfall API and bulk data</td>
+</tr>
+<tr>
+<td>Cache</td>
+<td>Redis</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Pytest, Pytest-asyncio</td>
+</tr>
+<tr>
+<td>Containerization</td>
+<td>Docker</td>
+</tr>
+</tbody>
+</table>
+<h3 id="scryfall-api-integration"><strong>Scryfall API Integration:</strong><a class="headerlink" href="#scryfall-api-integration" title="Permanent link">&para;</a></h3>
+<p>To adhere to Scryfall's API usage policies:</p>
+<ul>
+<li><strong>Daily Updates with ETL Pipeline:</strong> Provides daily updates to a full library of MTG cards and sets via ETL Pipeline.</li>
+<li><strong>Rate Limiting:</strong> Request handling with built-in 100 ms rate-limiting  </li>
+<li><strong>Local Storage:</strong> Stores card data locally for efficient retrieval and to ensure rate limiting compliance.</li>
+<li><strong>User Agent:</strong> ArcaneArchive/1.0; contact:dev@example.com</li>
+</ul>
+<h2 id="core-api-endpoints">Core API Endpoints<a class="headerlink" href="#core-api-endpoints" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/cards/search</td>
+<td>GET</td>
+<td>Search for cards by name, set, or other criteria</td>
+</tr>
+<tr>
+<td>/cards/{oracle_id}</td>
+<td>GET</td>
+<td>Get card details by Oracle ID</td>
+</tr>
+<tr>
+<td>/register</td>
+<td>POST</td>
+<td>Register a new user</td>
+</tr>
+<tr>
+<td>/user_accounts</td>
+<td>GET</td>
+<td>Get the authenticated user's account details</td>
+</tr>
+<tr>
+<td>/user_accounts/login</td>
+<td>POST</td>
+<td>Authenticate a user and return a token</td>
+</tr>
+<tr>
+<td>/user_accounts/logout</td>
+<td>POST</td>
+<td>Logout the authenticated user and invalidate the token</td>
+</tr>
+</tbody>
+</table>
+<h2 id="high-level-system-architecture">High-Level System Architecture<a class="headerlink" href="#high-level-system-architecture" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>---
+config:
+  theme: elk
+  flowchart:
+    defaultRenderer: elk
+    curve: curve
+    htmlLabels: true
+  themeVariables:
+    primaryColor: "#429352"
+    textColor: "#ffffff"
+    lineColor: "#429352"
+---
+flowchart TD
+    Mobile[React Native / Expo Client] --&gt; API[FastAPI API]
+    API --&gt; Services[Application Services]
+    Services --&gt; Repo[Repository Interfaces]
+    Repo --&gt; PG[(PostgreSQL)]
+    Services -.-&gt; Redis[(Redis)]
+    Services -.-&gt; Scryfall[Scryfall API]
+    Ingest[Bulk Import Job] --&gt;|Download dataset| Bulk[Scryfall Bulk Data]
+    Ingest --&gt;|Validate / upsert| PG
+    API --&gt; Auth[Authentication / Authorization]
+    Auth --&gt; PG</code></pre>
+<h2 id="api-access-rate-limiting">API Access &amp; Rate Limiting<a class="headerlink" href="#api-access-rate-limiting" title="Permanent link">&para;</a></h2>
+<p>Requests to Scryfall API require a user agent string that identifies the application and provides the developer's 
+contact information: <code>ArcaneArchive/1.0; contact: armummert4@gmail.com</code>. It also must include an <code>Accept</code> header. 
+Scryfall enforces a rate limit of 10 requests per second per IP address. To comply with this, Arcane Archive implements
+a rate-limiter and bounded backoff to protect against too many requests. Bulk exports are preferred over issuing 
+individual API requests. </p>
+<h2 id="license-and-attribution">License and Attribution<a class="headerlink" href="#license-and-attribution" title="Permanent link">&para;</a></h2>
+<p>Arcane Archive is documented as an MIT-licensed project.</p>
+<p>Magic: The Gathering and associated intellectual property are owned by 
+<a href="https://company.wizards.com/en/legal/intellectualproperty">Wizards of the Coast LLC</a>. Arcane Archive is an 
+unofficial fan project and is not approved or endorsed by Wizards of the Coast. Use of MTG materials is subject to the 
+<a href="https://company.wizards.com/en/legal/fancontentpolicy">Wizards of the Coast Fan Content Policy</a>.</p>
+<p>Card information and images are sourced through <a href="https://scryfall.com">Scryfall</a>. Scryfall is a third-party service and
+does not endorse Arcane Archive. Integrations and displayed content are subject to applicable Scryfall usage and 
+attribution requirements.</p>
+<h1 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h1>
+<p>[1] <a href="https://scryfall.com/docs/api">Scryfall API Documentation</a></p>
+<p>[2] <a href="https://scryfall.com/docs/api/bulk-data">Scryfall Bulk Data</a></p>
+<p>[3] <a href="https://scryfall.com/docs/api/rate-limits">Scryfall API Rate Limits</a></p>
+<p>[4] <a href="https://scryfall.com/docs/api/terms-of-service">Scryfall API Terms of Service</a></p>
+<p>[5] <a href="https://www.educative.io/courses/grokking-nodejs-design-patterns-interview/the-solid-principles?utm_term=&amp;utm_campaign=%5BNew+-+Mar+24%5D+Brand+Core+Performance+Max&amp;utm_source=adwords&amp;utm_medium=ppc&amp;hsa_acc=5451446008&amp;hsa_cam=21099703438&amp;hsa_grp=&amp;hsa_ad=&amp;hsa_src=x&amp;hsa_tgt=&amp;hsa_kw=&amp;hsa_mt=&amp;hsa_net=adwords&amp;hsa_ver=3&amp;gad_source=1&amp;gad_campaignid=21089679273&amp;gbraid=0AAAAADfWLuTbsmqmcbl__NU46v6gbqzBt&amp;gclid=Cj0KCQiAwdDXBhDuARIsAFdLukmnOU6EwFDIUf2sLaYWhCMsrXM_vLegr8qrXQBJ5aE1k0uRwAqywrEaAgZnEALw_wcB">SOLID Principles</a></p>
+<p>[6] <a href="https://www.educative.io/courses/grokking-nodejs-design-patterns-interview/the-repository-pattern?utm_term=&amp;utm_campaign=%5BNew+-+Mar+24%5D+Brand+Core+Performance+Max&amp;utm_source=adwords&amp;utm_medium=ppc&amp;hsa_acc=5451446008&amp;hsa_cam=21099703438&amp;hsa_grp=&amp;hsa_ad=&amp;hsa_src=x&amp;hsa_tgt=&amp;hsa_kw=&amp;hsa_mt=&amp;hsa_net=adwords&amp;hsa_ver=3&amp;gad_source=1&amp;gad_campaignid=21089679273&amp;gbraid=0AAAAADfWLuTbsmqmcbl__NU46v6gbqzBt&amp;gclid=Cj0KCQiAwdDXBhDuARIsAFdLukmnOU6EwFDIUf2sLaYWhCMsrXM_vLegr8qrXQBJ5aE1k0uRwAqywrEaAgZnEALw_wcB">Repository Pattern</a></p>
+<p>[7] <a href="https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design">SOLID – The first five principles of Object-Oriented Design</a></p>
+<p>[8] <a href="https://company.wizards.com/en/legal/fancontentpolicy">Wizards of the Coast Fan Content Policy</a></p>
+<p>[9] <a href="https://company.wizards.com/en/legal/intellectualproperty">Wizards of the Coast Intellectual Property</a></p>
+<p>[10] <a href="https://www.dandoescode.com/blog/modular-monolith/a-gentle-introduction">Modular Monolith</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
