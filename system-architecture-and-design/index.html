@@ -608,6 +608,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#card-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Card Scanner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cloud-infrastructure-selection" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -658,17 +669,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#postgresql-with-pgvector" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PostgreSQL with pgVector
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#dual-path-data-ingestion-with-scryfall-api-bulk-data-file" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -706,17 +706,6 @@
     <span class="md-ellipsis">
       
         AsyncSession for Database Transactions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dependency-injection-for-testability" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Injection for Testability
       
     </span>
   </a>
@@ -1176,6 +1165,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#card-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Card Scanner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cloud-infrastructure-selection" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1226,17 +1226,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#postgresql-with-pgvector" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PostgreSQL with pgVector
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#dual-path-data-ingestion-with-scryfall-api-bulk-data-file" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1274,17 +1263,6 @@
     <span class="md-ellipsis">
       
         AsyncSession for Database Transactions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dependency-injection-for-testability" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dependency Injection for Testability
       
     </span>
   </a>
@@ -1653,15 +1631,15 @@ dependency injection within a modular monolith. </p>
 <p><strong>Microservices Architecture</strong></p>
 <p>I considered using a microservices architecture for this project, but I decided against it for several reasons:</p>
 <ul>
-<li><strong>Complexity</strong>: A microservices architecture would add complexity to the application. I found that a modular monolith 
+<li>A microservices architecture would add complexity to the application. I found that a modular monolith 
   is simpler to develop, test, and deploy, debug, and maintain. It also allows me to focus on the core functionality of 
   the application while maintaining separation of concerns.</li>
-<li><strong>Performance</strong>: With microservices latency and network communication could potentially introduce performance 
+<li>With microservices latency and network communication could potentially introduce performance 
   issues. A modular monolith fits better for Arcane Archive's current requirements, as it eliminates network
   overhead and allows for faster communication between components.</li>
-<li><strong>Deployment</strong>: Using a modular monolith allows me to deploy the application as a single unit, which is simpler 
+<li>Using a modular monolith allows me to deploy the application as a single unit, which is simpler 
   and easier to manage.</li>
-<li><strong>Scalability</strong>: Microservices can provide better scalability, but I found that a modular monolith can still be 
+<li>Microservices can provide better scalability, but I found that a modular monolith can still be 
   scaled horizontally by adding more instances of the application. This is enough to satisfy the current requirements 
   of Arcane Archive.  If the application grows in complexity and requires more scalability, I can refactor the 
   application into a microservices architecture in the future.</li>
@@ -1672,20 +1650,20 @@ testability, and performance.</p>
 <p><strong>Routes accessing the database directly</strong></p>
 <p>I considered having the API routes access the database directly, but I decided against it for several reasons:</p>
 <ul>
-<li><strong>Separation of Concerns</strong>: By having the API routes access the database directly, I would be mixing concerns 
+<li>By having the API routes access the database directly, I would be mixing concerns 
   between the API layer and the data access layer. This would make the code harder to maintain and test.</li>
-<li><strong>Testability</strong>: By having the API routes access the database directly, it would be harder to test the application. 
+<li>By having the API routes access the database directly, it would be harder to test the application. 
   By using a service layer, I can easily mock the service layer for testing without needing to access the database.</li>
-<li><strong>Flexibility</strong>: By having the API routes access the database directly, I would be tightly coupling the API layer 
+<li>By having the API routes access the database directly, I would be tightly coupling the API layer 
   to the data access layer. This would make it harder to change the data access layer in the future without affecting 
   the API layer. By using a service layer, I can easily change the data access layer without affecting the API layer.</li>
-<li><strong>Reusability</strong>: By having the API routes access the database directly, I would be duplicating code across multiple 
+<li>By having the API routes access the database directly, I would be duplicating code across multiple 
   routes. By using a service layer, I can reuse the same service methods across multiple routes, reducing code duplication 
   and improving maintainability.</li>
-<li><strong>Security</strong>: By having the API routes access the database directly, I would be exposing the database to potential 
+<li>By having the API routes access the database directly, I would be exposing the database to potential 
   security vulnerabilities. By using a service layer, I can implement security measures such as input validation and 
   authentication in a centralized location, reducing the risk of security vulnerabilities.</li>
-<li><strong>Maintainability</strong>: By having the API routes access the database directly, I would be making the code harder to 
+<li>By having the API routes access the database directly, I would be making the code harder to 
   maintain. </li>
 </ul>
 <p><strong>Decision</strong>: I selected a layered architecture with application services because it provides a clean separation of 
@@ -1706,9 +1684,11 @@ improving maintainability.</p>
 <p>The following ERD shows the database design for the Arcane Archive backend. </p>
 <p><img alt="ERD" src="../assests/arcane-archive-erd.svg" /></p>
 <h3 id="card-id-and-deck-validation">Card ID and Deck Validation<a class="headerlink" href="#card-id-and-deck-validation" title="Permanent link">&para;</a></h3>
-<p>Scryfall identifies cards by their unique Scryfall ID. An Oracle ID is a unique identifier for a card that is used to 
-group all printings of a card together. A card can have multiple printings, and each printing can have a different 
-edition, language, finish, or condition, etc. </p>
+<p>Scryfall identifies cards by their unique Scryfall ID and sometimes an Oracle ID. An Oracle ID is a unique identifier 
+for a card that is used to group all printings of a card together. A card can have multiple printings, and each printing 
+can have a different edition, language, finish, or condition, etc. Collections refer to printings because players care 
+about the cards they have in their collection, not the specific edition or language. Some cards may lack an Oracle ID, 
+but they still have a unique Scryfall ID. </p>
 <h3 id="card-data-ingestion">Card Data Ingestion<a class="headerlink" href="#card-data-ingestion" title="Permanent link">&para;</a></h3>
 <p>The target for Arcane Archive is to ingest Scryfall's bulk data file containing 52,000+ cards. This will allow me to 
 have a high-performance application that will remain sustainable at zero cost. A daily import of the bulk data file 
@@ -1794,11 +1774,13 @@ Scryfall's API.</p>
         end
     end</code></pre>
 <h3 id="game-tracker">Game Tracker<a class="headerlink" href="#game-tracker" title="Permanent link">&para;</a></h3>
-<p>The proposed game tracking design keeps track of mana, life, commander tax, damage, and counters, etc on the mobile 
-client.</p>
+<p>The proposed game tracking design keeps track of mana, life, commander tax, damage, and counters, etc. on the mobile 
+client. </p>
 <p><strong>Live Game Play</strong>: Fast, real-time updates of game state. </p>
 <p><strong>Game History</strong>: Saved games, deck performance, player statistics, game outcomes, historical trends, etc.</p>
 <p><img alt="Game Tracker Chart" src="../assests/game-feature-chart.png" /></p>
+<h3 id="card-scanner">Card Scanner<a class="headerlink" href="#card-scanner" title="Permanent link">&para;</a></h3>
+<p>The card scanner feature allows users to scan a card from their camera and add it to their collection.</p>
 <h3 id="cloud-infrastructure-selection">Cloud Infrastructure Selection<a class="headerlink" href="#cloud-infrastructure-selection" title="Permanent link">&para;</a></h3>
 <p>I selected Oracle Cloud Infrastructure (OCI) for this project primarily due to its always free tier which allows for 
 cost efficiency without sacrificing performance.  Their Ampere A1 compute shapes provide a high memory capacity of 24GBs, 
@@ -1823,28 +1805,25 @@ detected and addressed as soon as possible. This also provides me with visibilit
 24GBs of RAM for the Oracle Cloud infrastructure efficiently.</p>
 <h2 id="data-storage-retrieval">Data Storage &amp; Retrieval<a class="headerlink" href="#data-storage-retrieval" title="Permanent link">&para;</a></h2>
 <h3 id="sql-vs-nosql-database">SQL Vs. NoSQL Database<a class="headerlink" href="#sql-vs-nosql-database" title="Permanent link">&para;</a></h3>
-<p>I chose to use a PostgreSQL Database for this project because it provides a robust and reliable way to store and retrieve data. 
-PostgreSQL is well-suited for complex queries and transactions, which are essential for handling user collections, 
-wishlists, and other features of the Arcane Archive application. Additionally, PostgreSQL provides ACID compliance, 
-which ensures data consistency and reliability. By choosing PostgreSQL, I also gain access to the pgvector extension. 
-This will allow me to store AI-generated card embeddings for semantic search, which enables the AI Deck Builder to 
-find cards based on their 'feel' or 'strategy' rather than just keywords.</p>
-<h3 id="postgresql-with-pgvector">PostgreSQL with pgVector<a class="headerlink" href="#postgresql-with-pgvector" title="Permanent link">&para;</a></h3>
-<p>I chose PostgreSQL for its ACID compliance and robustness in handling complex queries for user collections. By using 
-pgVector, I can store AI-generated card embeddings. This enables a semantic search feature allowing the AI Deck Builder 
-to find cards based on strategic feel, like aggressive, defensive, or control, rather than just keyword matching.</p>
+<p>I chose to use a PostgreSQL Database for this project because it provides a robust and reliable way to store and 
+retrieve data. PostgreSQL is well-suited for complex queries and transactions, which are essential for handling user 
+collections, wishlists, and other features of the Arcane Archive application. Additionally, PostgreSQL provides ACID 
+compliance, which guarantees data consistency and reliability. By choosing PostgreSQL, I also gain access to the 
+pgvector extension. This will allow me to store AI-generated card embeddings for semantic search, which enables the 
+AI Deck Builder to find cards based on their 'feel' or 'strategy' rather than just keywords.</p>
 <h3 id="dual-path-data-ingestion-with-scryfall-api-bulk-data-file">Dual-Path Data Ingestion with Scryfall API &amp; Bulk Data File<a class="headerlink" href="#dual-path-data-ingestion-with-scryfall-api-bulk-data-file" title="Permanent link">&para;</a></h3>
 <p>I chose to use Scryfall's API for real-time card data updates and to adhere to their API usage policies. 
-However, for bulk data ingestion, I use Scryfall's bulk data file to ensure data consistency and to avoid hitting the API rate limit. 
-This approach allows for a balance between real-time updates and efficient data ingestion.</p>
+However, for bulk data ingestion, I use Scryfall's bulk data file to ensure data consistency and to avoid hitting the 
+API rate limit. This approach allows for a balance between real-time updates and efficient data ingestion.</p>
 <h3 id="scryfall-data-usage-and-rate-limiting">Scryfall Data Usage and Rate Limiting<a class="headerlink" href="#scryfall-data-usage-and-rate-limiting" title="Permanent link">&para;</a></h3>
-<p>To adhere to Scryfall's API usage policies, I implemented a 100ms rate limit for all calls to api.scryfall.com to avoid 429 errors. 
-For image assets, I used a Bulk-to-CDN path: the app extracts image URIs from the locally processed bulk JSON file 
-and fetches the assets from the .scryfall.io domain. Because the image CDN is decoupled from the primary API rate limits
-(scryfall.io doesn't require a rate limit), this allows the app to lazily cache high-resolution card art to OCI Object Storage without risking an API ban. </p>
+<p>To adhere to Scryfall's API usage policies, I implemented a 100 ms rate limit for all calls to api.scryfall.com to 
+avoid 429 errors. For image assets, I used a Bulk-to-CDN path: the app extracts image URIs from the locally processed 
+bulk JSON file and fetches the assets from the .scryfall.io domain. Because the image CDN is decoupled from the primary
+API rate limits (scryfall.io doesn't require a rate limit), this allows the app to lazily cache high-resolution card 
+art to OCI Object Storage without risking an API ban. </p>
 <h3 id="hotlinking-vs-object-storage">Hotlinking Vs. Object Storage<a class="headerlink" href="#hotlinking-vs-object-storage" title="Permanent link">&para;</a></h3>
 <p>To avoid hotlinking issues, I chose to use OCI Object Storage to store card images. Images that are not
-used are not directly linked from Scryfall's servers, reducing the risk of being blocked by Scryfall's rate limits or \
+used are not directly linked from Scryfall's servers, reducing the risk of being blocked by Scryfall's rate limits or
 other policies.</p>
 <p>Because the image CDN is decoupled from the primary API rate limits on Scryfall's API (scryfall.io doesn't require a 
 rate limit), this allows the app to lazily cache high-resolution card art to OCI Object Storage without risking an API
@@ -1854,11 +1833,7 @@ and if the card is not found, it fetches the card image from Scryfall's CDN. Thi
 does not exceed the rate limit on api.scryfall.com and minimizes API calls.</p>
 <h3 id="asyncsession-for-database-transactions">AsyncSession for Database Transactions<a class="headerlink" href="#asyncsession-for-database-transactions" title="Permanent link">&para;</a></h3>
 <p>I chose to use AsyncSession for database transactions because it allows multiple concurrent database transactions 
-without blocking other transactions, improving performance and scalability. </p>
-<h3 id="dependency-injection-for-testability">Dependency Injection for Testability<a class="headerlink" href="#dependency-injection-for-testability" title="Permanent link">&para;</a></h3>
-<p>I chose to use FastAPI's Dependency Injection for testability. This allows for easy mocking of repositories during testing, 
-which high code coverage without needing a live database connection. Dependency Injection also provides loose coupling 
-and makes the codebase more testable, maintainable, and scalable.</p>
+without blocking other transactions, improving performance and scalability.</p>
 <h2 id="performance-resource-management">Performance &amp; Resource Management<a class="headerlink" href="#performance-resource-management" title="Permanent link">&para;</a></h2>
 <h3 id="connection-pooling-with-pgbouncer">Connection Pooling with pgBouncer<a class="headerlink" href="#connection-pooling-with-pgbouncer" title="Permanent link">&para;</a></h3>
 <p>I chose to use pgBouncer for connection pooling, a cache of database connections that can be reused for multiple client requests
@@ -1867,7 +1842,8 @@ ensures efficient resource utilization. This would allow hundreds of concurrent 
 <p>This will significantly reduce the overhead on the 24GBs RAM allowance with Oracle Cloud and prevents 
 "too many connections" errors, which are commonly encountered with high-traffic MTG searches.</p>
 <h3 id="in-memory-caching-with-redis">In-memory Caching with Redis<a class="headerlink" href="#in-memory-caching-with-redis" title="Permanent link">&para;</a></h3>
-<p>I chose to use Redis for in-memory caching to reduce latency and improve performance for frequently accessed data like search results and card data.*</p>
+<p>I chose to use Redis for in-memory caching to reduce latency and improve performance for frequently accessed data 
+like search results and card data.*</p>
 <h2 id="data-reliability-disaster-recovery">Data Reliability &amp; Disaster Recovery<a class="headerlink" href="#data-reliability-disaster-recovery" title="Permanent link">&para;</a></h2>
 <h3 id="data-backup-and-recovery-with-pgbackrest">Data Backup and Recovery with pgBackRest<a class="headerlink" href="#data-backup-and-recovery-with-pgbackrest" title="Permanent link">&para;</a></h3>
 <p>I chose to use pgBackRest for data backup and recovery. This ensures that data is backed up regularly and can be restored 
