@@ -1950,33 +1950,33 @@ attribution requirements.</p>
 </table>
 <h2 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>arcane-archive-backend/
-├── main.py                    # FastAPI application entry point
-├── database.py                # SQLAlchemy engine &amp; session management
-├── container.py               # Dependency injection container
-├── firebase_config.py        # Firebase SDK initialization
+├── main.py                    
+├── database.py                
+├── container.py           
+├── firebase_config.py       
 ├── common/
-│   ├── base.py              # Base model class
-│   ├── config.py            # Configuration settings
-│   ├── repository.py        # Generic repository
-│   └── dependencies.py      # FastAPI dependencies
-├── models/                   # SQLAlchemy models
+│   ├── base.py              
+│   ├── config.py            
+│   ├── repository.py        
+│   └── dependencies.py      
+├── models/                  
 │   └── cards.py
-├── schemas/                  # Pydantic schemas
+├── schemas/                 
 │   └── cards_schema.py
-├── repositories/            # Data access repositories
+├── repositories/            
 │   └── card_repository.py
-├── routers/                  # API routers
+├── routers/                
 │   └── scryfall_advanced_card_search_router.py
 ├── authentication/
-│   ├── models/             # Auth-related models
-│   ├── repositories/       # Auth repositories
-│   ├── routers/           # Auth routers
-│   ├── schemas/           # Auth schemas
-│   ├── services/          # Auth services
-│   └── security.py        # Password hashing &amp; JWT
-├── alembic/                 # Database migrations
-├── tests/                   # Test suite
-└── pyproject.toml          # Project dependencies
+│   ├── models/            
+│   ├── repositories/      
+│   ├── routers/          
+│   ├── schemas/          
+│   ├── services/          
+│   └── security.py       
+├── alembic/                
+├── tests/                  
+└── pyproject.toml          
 </code></pre></div>
 <h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
 <ul>
