@@ -163,6 +163,12 @@ The following ERD shows the database design for the Arcane Archive backend.
 
 ![ERD](assests/arcane-archive-erd.svg)
 
+### Card ID and Deck Validation
+
+Scryfall identifies cards by their unique Scryfall ID. An Oracle ID is a unique identifier for a card that is used to 
+group all printings of a card together. A card can have multiple printings, and each printing can have a different 
+edition, language, finish, or condition, etc. 
+
 ### Card Data Ingestion
 
 The target for Arcane Archive is to ingest Scryfall's bulk data file containing 52,000+ cards. This will allow me to 
