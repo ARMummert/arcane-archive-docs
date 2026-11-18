@@ -494,20 +494,15 @@ applied:
 
 ### Dependency Injection
 
-```mermaid
-sequenceDiagram
-    participant Router
-    participant DI as Dependency Composition
-    participant DB as AsyncSession Factory
-    participant Service
-    Router->>DI: Resolve request dependencies
-    DI->>DB: Open request-scoped session
-    DI->>DI: Construct scoped repositories and service
-    DI-->>Router: Service with supplied dependencies
-    Router->>Service: Execute use case
-    Service-->>Router: Result or mapped error
-    DI->>DB: Close session / release connection
-```
+I designed Arcane Archive to be flexible and modular by using dependency injection. This allows me to replace real
+dependencies with mocks during testing and makes the code more testable, maintainable, and scalable. The following 
+diagram illustrates the dependency injection flow for a request:
+
+![Dependency Injection Flow](di-structural-diagram.svg)
+
+Arcane Archive uses the dependency injection framework [dependency-injector](https://python-dependency-injector.ets-labs.org/index.html) 
+to manage the dependencies of the application.
+
 ## License and Attribution
 
 Arcane Archive is documented as an MIT-licensed project.
@@ -521,7 +516,7 @@ Card information and images are sourced through [Scryfall](https://scryfall.com)
 does not endorse Arcane Archive. Integrations and displayed content are subject to applicable Scryfall usage and 
 attribution requirements.
 
-## 6. Technology Stack
+## Technology Stack
 
 | Layer                | Technology                            |
 |----------------------|---------------------------------------|
@@ -537,7 +532,7 @@ attribution requirements.
 | Testing              | pytest, pytest-asyncio                |
 | Package Manager      | Poetry                                |
 
-## 7. Project Structure
+## Project Structure
 
 ```
 arcane-archive-backend/
@@ -570,15 +565,13 @@ arcane-archive-backend/
 └── pyproject.toml          # Project dependencies
 ```
 
-## 8. Security Considerations
+## Security Considerations
 
 - **Password Hashing**: Uses bcrypt via `passlib`
 - **JWT Tokens**: Token-based authentication with expiration
 - **Firebase Auth**: External authentication provider integration
 - **CORS**: Configured for specific frontend origins only
 - **Input Validation**: Pydantic models validate all inputs
-
----
 
 # References
 
@@ -619,3 +612,8 @@ arcane-archive-backend/
 [18] [OCI Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm)
 
 [19] [pgBackrest - User Guide](https://pgbackrest.org/user-guide.html)
+
+[20] [Python Dependency Injection](https://www.datacamp.com/tutorial/python-dependency-injection?utm_cid=23487274749&utm_aid=192541861336&utm_campaign=230119_1-ps-dscia~dsa-tofu~python_2-b2c_3-nam_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&utm_loc=9212987-&utm_mtd=-c&utm_kw=&utm_source=google&utm_medium=paid_search&utm_content=ps-dscia~nam-en~dsa~tofu~tutorial~python&gad_source=1&gad_campaignid=23487274749&gbraid=0AAAAADQ9WsG8Irf9IF3Fl-xONPg5v2q9R&gclid=Cj0KCQiAtvXXBhC2ARIsAJc8SUTFU9381sm4khnbTTf9A-CMHb94Wp-dqq-iJlksGlTgXn7uRUwjY58aAo6xEALw_wcB)
+
+[21][Dependency Injection and Inversion of Control](https://python-dependency-injector.ets-labs.org/introduction/di_in_python.html)
+
