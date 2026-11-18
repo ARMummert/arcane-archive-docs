@@ -177,7 +177,7 @@ will take place to provide the most up-to-date card data.
 
 **Card Ingestion Process**:
 1. Retrieve and Download the bulk data file from Scryfall's API.
-2. Validate and normalize the data, while preserving Scryfall's identifiers.
+2. Validate and normalize the data while preserving Scryfall's identifiers.
 3. Upsert the data into the PostgreSQL database, ensuring that existing records are updated and new records are 
    inserted.
 4. Publish the updated card data to the Redis cache for real-time updates.
@@ -265,6 +265,18 @@ sequenceDiagram
         end
     end
 ```
+
+### Game Tracker 
+
+The proposed game tracking design keeps track of mana, life, commander tax, damage, and counters, etc on the mobile 
+client.
+
+**Live Game Play**: Fast, real-time updates of game state. 
+
+**Game History**: Saved games, deck performance, player statistics, game outcomes, historical trends, etc.
+
+![Game Tracker Chart](/docs/assests/game-tracker-feature-chart.svg)
+
 ### Cloud Infrastructure Selection
 I selected Oracle Cloud Infrastructure (OCI) for this project primarily due to its always free tier which allows for 
 cost efficiency without sacrificing performance.  Their Ampere A1 compute shapes provide a high memory capacity of 24GBs, 
