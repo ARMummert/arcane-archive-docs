@@ -1,0 +1,169 @@
+vars: {
+  d2-config: {
+    theme-id: 201
+    layout-engine: elk
+  }
+}
+direction: right
+
+user: USER {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "username": "TEXT" {constraint: unique}
+  "email": "TEXT" {constraint: unique}
+  "status": "TEXT"
+  "email_verified_at": "TIMESTAMPTZ NULL"
+  "created_at": "TIMESTAMPTZ"
+  "updated_at": "TIMESTAMPTZ"
+}
+credential: LOCAL_CREDENTIAL {
+  shape: sql_table
+  "user_id": "BIGINT" {constraint: [primary_key; foreign_key]}
+  "password_hash": "TEXT"
+  "changed_at": "TIMESTAMPTZ"
+}
+identity: SOCIAL_IDENTITY {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "user_id": "BIGINT" {constraint: foreign_key}
+  "issuer": "TEXT"
+  "subject": "TEXT"
+  "created_at": "TIMESTAMPTZ"
+}
+session: AUTH_SESSION {
+  shape: sql_table
+  "id": "UUID" {constraint: primary_key}
+  "user_id": "BIGINT" {constraint: foreign_key}
+  "created_at": "TIMESTAMPTZ"
+  "expires_at": "TIMESTAMPTZ"
+  "revoked_at": "TIMESTAMPTZ NULL"
+}
+token: REFRESH_TOKEN {
+  shape: sql_table
+  "id": "UUID" {constraint: primary_key}
+  "session_id": "UUID" {constraint: foreign_key}
+  "digest": "TEXT" {constraint: unique}
+  "issued_at": "TIMESTAMPTZ"
+  "expires_at": "TIMESTAMPTZ"
+  "consumed_at": "TIMESTAMPTZ NULL"
+  "revoked_at": "TIMESTAMPTZ NULL"
+}
+oracle: CARD_ORACLE {
+  shape: sql_table
+  "oracle_id": "UUID" {constraint: primary_key}
+  "name": "TEXT"
+  "type_line": "TEXT NULL"
+  "oracle_text": "TEXT NULL"
+  "mana_cost": "TEXT NULL"
+  "color_identity": "JSONB"
+  "legalities": "JSONB NULL"
+  "mana_value": "NUMERIC NULL"
+  "face_data": "JSONB NULL"
+}
+set: CARD_SET {
+  shape: sql_table
+  "scryfall_set_id": "UUID" {constraint: primary_key}
+  "set_code": "TEXT" {constraint: unique}
+  "set_name": "TEXT"
+  "released_at": "DATE NULL"
+  "set_type": "TEXT"
+}
+printing: CARD_PRINT {
+  shape: sql_table
+  "scryfall_id": "UUID" {constraint: primary_key}
+  "oracle_id": "UUID NULL" {constraint: foreign_key}
+  "set_id": "UUID" {constraint: foreign_key}
+  "collector_number": "TEXT"
+  "lang": "TEXT"
+  "rarity": "TEXT"
+  "finishes": "JSONB"
+  "image_metadata": "JSONB NULL"
+  "prices": "JSONB NULL"
+  "price_observed_at": "TIMESTAMPTZ NULL"
+  "retired_at": "TIMESTAMPTZ NULL"
+}
+collection: COLLECTION_ITEM {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "user_id": "BIGINT" {constraint: foreign_key}
+  "scryfall_id": "UUID" {constraint: foreign_key}
+  "quantity": "INTEGER"
+}
+wishlist: WISHLIST {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "user_id": "BIGINT" {constraint: foreign_key}
+  "title": "TEXT"
+  "created_at": "TIMESTAMPTZ"
+  "updated_at": "TIMESTAMPTZ"
+}
+wishitem: WISHLIST_ITEM {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "wishlist_id": "BIGINT" {constraint: foreign_key}
+  "scryfall_id": "UUID" {constraint: foreign_key}
+}
+deck: DECK {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "user_id": "BIGINT" {constraint: foreign_key}
+  "title": "TEXT"
+  "format": "TEXT"
+  "created_at": "TIMESTAMPTZ"
+  "updated_at": "TIMESTAMPTZ"
+}
+entry: DECK_ENTRY {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "deck_id": "BIGINT" {constraint: foreign_key}
+  "scryfall_id": "UUID" {constraint: foreign_key}
+  "quantity": "INTEGER"
+  "zone": "TEXT"
+}
+game: GAME_SESSION {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "user_id": "BIGINT" {constraint: foreign_key}
+  "format": "TEXT NULL"
+  "status": "TEXT"
+  "started_at": "TIMESTAMPTZ"
+  "completed_at": "TIMESTAMPTZ NULL"
+}
+player: GAME_PLAYER {
+  shape: sql_table
+  "id": "BIGINT" {constraint: primary_key}
+  "game_session_id": "BIGINT" {constraint: foreign_key}
+  "user_id": "BIGINT NULL" {constraint: foreign_key}
+  "display_name": "TEXT"
+  "life_total": "INTEGER"
+}
+import_run: CATALOG_IMPORT {
+  shape: sql_table
+  "id": "UUID" {constraint: primary_key}
+  "dataset_id": "TEXT"
+  "upstream_version": "TEXT"
+  "status": "TEXT"
+  "started_at": "TIMESTAMPTZ"
+  "completed_at": "TIMESTAMPTZ NULL"
+  "record_count": "BIGINT NULL"
+  "dataset_bytes": "BIGINT NULL"
+  "rejected_count": "BIGINT NULL"
+  "generation": "BIGINT NULL"
+}
+credential.user_id -> user.id
+identity.user_id -> user.id
+session.user_id -> user.id
+token.session_id -> session.id
+printing.oracle_id -> oracle.oracle_id
+printing.set_id -> set.scryfall_set_id
+collection.user_id -> user.id
+collection.scryfall_id -> printing.scryfall_id
+wishlist.user_id -> user.id
+wishitem.wishlist_id -> wishlist.id
+wishitem.scryfall_id -> printing.scryfall_id
+deck.user_id -> user.id
+entry.deck_id -> deck.id
+entry.scryfall_id -> printing.scryfall_id
+game.user_id -> user.id
+player.game_session_id -> game.id
+player.user_id -> user.id
