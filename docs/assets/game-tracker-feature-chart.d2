@@ -1,0 +1,169 @@
+# Arcane Archive - Game Tracker Feature Overview
+
+direction: down
+style.fill: "#11151D"
+style.stroke-width: 0
+
+classes: {
+  capability: {
+    width: 300
+    height: 220
+    style: {
+      border-radius: 8
+      stroke-width: 2
+      font-color: "#F5F3EB"
+      font-size: 16
+    }
+  }
+}
+
+archive: "Arcane Archive\nGame Tracker" {
+  width: 280
+  height: 85
+  style: {
+    fill: "#293C35"
+    stroke: "#9DDBB3"
+    font-color: "#FFFFFF"
+    font-size: 22
+    bold: true
+    border-radius: 8
+    stroke-width: 2
+  }
+}
+
+features: "" {
+  grid-columns: 2
+  grid-gap: 50
+  horizontal-gap: 50
+  vertical-gap: 30
+  style.fill: transparent
+  style.stroke: transparent
+  style.stroke-width: 0
+
+  setup: |md
+    ### Game Setup
+
+    - Format Selection
+    - Player Configuration
+    - Deck Selection
+    - Starting Life Totals
+    - Table Orientation
+    - Randomized Player Order
+    | {
+
+    shape: rectangle
+    class: capability
+
+    style: {
+    stroke: "#438DD5"
+    fill: "#1A2938"
+    bold: true
+    font-size: 20
+  }
+}
+
+  gameplay: |md
+    ### Live Gameplay
+
+    - Life totals
+    - Commander damage
+    - Commander tax
+    - Mana and storm
+    - Counters and status
+    - Turns and timers
+    | {
+    shape: rectangle
+    class: capability
+    style: {
+      stroke: "#429352"
+      fill: "#1C3028"
+      bold: true
+      font-size: 20
+  }
+}
+
+  utilities: |md
+    ### Gameplay Utilities
+
+    - Dice Roller
+    - Coin Flip
+    - Random Player
+    - Card and Rules Lookup
+    - Undo and Activity Log
+    - Local Game Recovery
+    | {
+    shape: rectangle
+    class: capability
+    style: {
+      stroke: "#8B5CF6"
+      fill: "#29213D"
+      bold: true
+      font-size: 20
+    }
+  }
+
+  management: |md
+    ### Game Management
+
+    - Accessibility
+    - Custom counters
+    - Player backgrounds
+    - Screen orientation
+    - Haptic feedback
+    - Optional cloud sync
+   | {
+    shape: rectangle
+    class: capability
+    style: {
+      stroke: "#D97706"
+      fill: "#34261C"
+      bold: true
+      font-size: 20
+    }
+  }
+
+  analytics: |md
+    ### Game Analytics
+
+   - Player win rates
+   - Deck performance
+   - Matchup matrix
+   - Historical trends
+   - Format comparisons
+   - Game duration
+    | {
+      shape: rectangle
+      class: capability
+      style: {
+        stroke: "#0891B2"
+        fill: "#172E38"
+        bold: true
+        font-size: 20
+      }
+  }
+
+  configuration: |md
+    ### Game Configuration
+
+   - Accessibility
+   - Custom counters
+   - Player backgrounds
+   - Screen orientation
+   - Haptic feedback
+   - Optional cloud sync
+    | {
+      shape: rectangle
+      class: capability
+      style: {
+        stroke: "#64748B"
+        fill: "#252D39"
+        bold: true
+        font-size: 20
+      }
+  }
+}
+
+archive -- features: {
+  style.stroke: "#ffffff"
+  style.stroke-width: 2
+}

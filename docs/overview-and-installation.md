@@ -23,6 +23,8 @@ The backend uses PostgreSQL to persist card data and user information. Scryfall 
 information and images by using the bulk data download feature. An AI-assisted deck builder is planned for future
 implementation.
 
+![Arcane Archive UI](assets/arcane-archive-ui.svg)
+
 ## Objectives
 
 - Library Management: Provide a card library so users can manage card collections, including library 
@@ -135,7 +137,7 @@ poetry install
 docker --version
 docker-compose --version
 docker compose config --services
-```
+```git@github.com:ARMummert/arcane-archive-frontend.git
 
 ### Start the Docker Containers
 ```bash
