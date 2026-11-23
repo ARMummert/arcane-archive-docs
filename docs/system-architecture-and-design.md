@@ -65,15 +65,15 @@ dependency injection within a modular monolith.
 
 ### Architectural Layers
 
-1. **Presentation Layer**: FastAPI routers, Pydantic, Request/Response schemas
-2. **Application Layer**: Register user, save deck, search cards
-3. **Domain Layer**: Card quantity, deck format, ownership rules
-4. **Data Access Layer**: User, credentials, card, and deck repositories
-5. **Infrastructure Layer**: SQLAlchemy, Redis, Firebase Admin SDK, Scryfall API, pgBouncer, pgBackRest
+1. **Presentation Layer**: FastAPI routers, Pydantic, Request/Response schemas. 
+2. **Application Layer**: Register user, save deck, search cards. 
+3. **Domain Layer**: Card quantity, deck format, ownership. 
+4. **Data Access Layer**: User, credentials, card, and deck repositories. 
+5. **Infrastructure Layer**: SQLAlchemy, Redis, Firebase Admin SDK, Scryfall API, pgBouncer, pgBackRest.
 
 ### SOLID Principles
 
-- **Single Responsibility Principle** – Each file has one job (e.g., user_repository only talks to the database).
+- **Single Responsibility Principle** – Each module or class should have one reason to change. 
 - **Open/Closed Principle** – The application is open for extension but closed for modification allowing for future 
   enhancements like adding an AI Deck Service.  
 - **Liskov Substitution Principle** – Example: Different auth methods (local and Firebase social auth) can both be used 
@@ -187,7 +187,7 @@ will take place to provide the most up-to-date card data.
 See [Scryfall Bulk Data](https://scryfall.com/docs/api/bulk-data) and 
 [API Usage Guide](https://scryfall.com/docs/syntax) for more information on the bulk data file format.
 
-### Local-First Card Retrieval & Failure Handling
+## Local-First Card Retrieval & Failure Handling
 
 Card search uses Redis as a cache-aside for public card data. The application will first attempt to retrieve the 
 catalog from Redis. If the Redis cache is unavailable, the application will attempt to retrieve the catalog from the
@@ -196,35 +196,35 @@ Scryfall's API.
 
 ```mermaid
 sequenceDiagram
-    participant Client
-    participant Router
+    participant Client as React Native Client
+    participant Router as FastAPI Router
     participant Service as Card Search Service
-    participant Data as Card Retrieval Adapter
+    participant Adapter as Retrieval Adapter
     participant Cache as Redis
     participant DB as PostgreSQL
-    participant External as Scryfall API
-    Client->>Router: GET /cards/search
-    Router->>Service: Search with validated parameters
-    Service->>Data: Retrieve normalized card results
-    Data->>Cache: Read public query cache
-    alt Valid cache hit
-        Cache-->>Data: Cached results
-    else Miss or cache unavailable
-        Data->>DB: Query local catalog
-        alt Local query succeeds
-            DB-->>Data: Results (possibly empty)
-            opt Cache available
-                Data->>Cache: Store results with TTL
+    participant Scryfall as Scryfall API
+    Client->>Router: GET /cards/search (validated filters)
+    Router->>Service: Search request
+    Service->>Adapter: Normalized search query
+    Adapter->>Cache: Read versioned query cache
+    alt Cache hit
+        Cache-->>Adapter: Cached results
+    else Cache miss or cache failure
+        Adapter->>DB: Search local catalog
+        alt Database responds
+            DB-->>Adapter: Results (including valid empty results)
+            opt Redis available
+                Adapter->>Cache: Cache permitted results with TTL
             end
-        else Local catalog unavailable
-            opt Approved external fallback for this query
-                Data->>External: Bounded HTTPS lookup
-                External-->>Data: Result or upstream error
+        else Database unavailable
+            opt Approved, bounded external fallback
+                Adapter->>Scryfall: Rate-limited HTTPS lookup
+                Scryfall-->>Adapter: Results or upstream failure
             end
         end
     end
-    Data-->>Service: Normalized result or availability error
-    Service-->>Router: Use case result
+    Adapter-->>Service: Normalized results or availability error
+    Service-->>Router: Search response
     Router-->>Client: HTTP response
 ```
 
@@ -232,36 +232,36 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant Client
-    participant Router
-    participant Auth as Authentication Service
+    participant Client as Mobile Client
+    participant Router as FastAPI Router
+    participant Auth as Registration Service
     participant Users as User Repository
     participant Creds as Credential Repository
     participant UOW as Transaction Boundary
     participant DB as PostgreSQL
-    Client->>Router: POST /register
-    Router->>Auth: Register validated input
-    Auth->>Auth: Check policy and hash password
+    Client->>Router: POST /user_accounts/
+    Router->>Auth: Validated registration request
+    Auth->>Auth: Check age/policy and hash password
     Auth->>UOW: Begin transaction
-    Auth->>Users: Check account identifiers
-    Users->>DB: Query existing user
-    alt Account conflict
+    Auth->>Users: Check identifiers
+    Users->>DB: Query existing account
+    alt Duplicate identifier
         Auth->>UOW: Roll back
         Auth-->>Router: Registration conflict
-        Router-->>Client: Conflict response
-    else No existing account
-        Auth->>Users: Create user and flush
+        Router-->>Client: 409 Conflict
+    else No duplicate found
+        Auth->>Users: Create user
         Users->>DB: INSERT user
         Auth->>Creds: Create local credential
         Creds->>DB: INSERT credential
-        alt Writes and commit succeed
+        alt Transaction succeeds
             Auth->>UOW: Commit
             Auth-->>Router: Registration result
             Router-->>Client: 201 Created
-        else Constraint or persistence failure
+        else Constraint or persistence error
             Auth->>UOW: Roll back
-            Auth-->>Router: Mapped error
-            Router-->>Client: Appropriate error response
+            Auth-->>Router: Sanitized error
+            Router-->>Client: Mapped error response
         end
     end
 ```
@@ -280,36 +280,6 @@ client.
 ### Card Scanner
 
 The card scanner feature allows users to scan a card from their camera and add it to their collection.
-
-### Cloud Infrastructure Selection
-I selected Oracle Cloud Infrastructure (OCI) for this project primarily due to its always free tier, which allows for 
-cost efficiency without sacrificing performance.  Their Ampere A1 compute shapes provide a high memory capacity of 24GBs, 
-which is required to host the application, a PostgreSQL database, and a Redis Cache in a single instance. The free tier
-will also be enough for the data ingestion of Scryfall's bulk data file containing 52,000+ cards. This allows me to 
-have a high-performance application that will remain sustainable at zero cost.
-
-### DMZ & Network Architecture
-I will implement a DMZ (Demilitarized Zone) to separate the public-facing services from the internal services. 
-This provides an additional layer of security and helps to prevent unauthorized access to sensitive data like user 
-credentials. I will do this using OCI's Virtual Cloud Network (VCN). By placing the API and Database in a private 
-subnet and only exposing the load balancer to the public, I ensure that user data remains unaccessible from the public 
-internet.
-
-I will implement several security measures to protect user data and ensure the integrity of the application. 
-These include using HTTPS for all API requests and implementing JWT authentication for secure user sessions. 
-Additionally, I will use dependency injection for testability and loose coupling, which helps to prevent injection 
-attacks.
-
-I will use NGINX as a reverse proxy to handle the incoming requests. This is the entry point within the DMZ where all 
-incoming requests are authenticated and encrypted before reaching the API.
-
-I will use the OCI Service Gateway to ensure that the API can securely communicate with OCI Object Storage
-for card image storage and retrieval. This allows the private subnet to securely access OCI Object Storage without exposing 
-it to the public internet.
-
-I will use OCI Logging and Monitoring to ensure that the application is monitored and that any errors are 
-detected and addressed as soon as possible. This also provides me with visibility of the Docker stack to manage the
-24GBs of RAM for the Oracle Cloud infrastructure efficiently.
 
 ## Data Storage & Retrieval
 ### SQL Vs. NoSQL Database
@@ -363,12 +333,9 @@ in case of a disaster or data loss. pgBackRest provides Point-in-Time Recovery, 
 the specific second if a data corruption event occurs.
 
 ### CAP: Consistency & Partition Tolerance 
-I chose to prioritize Consistency and Partition Tolerance for this project. This is because the Arcane Archive 
-application requires data consistency and reliability for user collections, wishlists, and other features. Consistency 
-allows the data to be accurate and up to date, while Partition Tolerance allows the application to continue functioning 
-even if some parts of the system fail. Users expect their data to be accurate and reliable, and this approach allows
-Arcane Archive to meet those expectations. A user would rather hit retry than see incorrect or incomplete data (e.g., 
-missing cards in their collection or incomplete deck creation).
+I chose to prioritize consistency and partition tolerance because I would rather reject a collection update temporarily
+than show an incorrect result to the user. I want users to be able to add or remove cards from their collection and 
+return an unstandable error message instead of losing or duplicating a user's data.
 
 ### Data Integrity via Schemas
 I chose to use Pydantic schemas for data validation and normalization. This ensures that data is consistent and reliable  
